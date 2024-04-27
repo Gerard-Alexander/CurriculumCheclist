@@ -353,6 +353,23 @@ public class CurriculumChecklistApplication {
         }
     } // end of populateStudentArray method
 
+    /*
+    private void populateCurriculumArray(String filename, Curriculum[] curriculaArray) throws FileNotFoundException, Exception{
+        Scanner inputReader = new Scanner(new File(filename));
+        String line = "";
+        int index = -1;
+        Curriculum curriculum = null;
+        while (inputReader.hasNextLine()){
+            index +=1;
+            line = inputReader.nextLine();
+            String [] data = line.split(",");
+            curriculum = new Curriculum(data[0], data[1], Double.parseDouble(data[2]), data[3], data[4], Double.parseDouble(data[5]), Boolean.parseBoolean(data[6]), Boolean.parseBoolean(data[7]), data[8], data[9]);
+            curriculaArray [index]= curriculum;
+        }
+        inputReader.close();
+    }
+    */
+
     private void showCurriculumChecklist(Curriculum[] curriculumArray){
         //TO DO
     }
