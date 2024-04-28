@@ -99,6 +99,17 @@ public class CurriculumChecklistApplication {
     private class SortButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             // TO-DO
+            /*Gets the list of the Curriculum by using the populateCurriculumArray method.
+            replace "datafile name" with the name of the data file that will be used to get the data for
+            the curriculum objects later.
+            */
+            ArrayList<Curriculum> curriculumList = populateCurriculumArray("datafile name");
+
+            //unfinished
+            Comparator<Curriculum> byYearLevel = Comparator.comparing(Curriculum::getYearLevel);
+            Comparator<Curriculum> byTerm = Comparator.comparing(Curriculum::getTerm);
+            Comparator<Curriculum> byNumberOfUnits = Comparator.comparing(Curriculum::getUnits);
+
         }
     }
 
