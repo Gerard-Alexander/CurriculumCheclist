@@ -36,6 +36,8 @@ public class CurriculumChecklistApplication {
     private byte currentYear = 1;
     private byte currentTerm = 1;
 
+    private boolean showGradesIsClicked = false;
+
     public CurriculumChecklistApplication() {
         setMainFrame();
         setSidePanel();
@@ -106,7 +108,7 @@ public class CurriculumChecklistApplication {
 
     private class ShowGradesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-//            showGradedIsClicked = true;
+//          showGradesIsClicked = true;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
