@@ -46,6 +46,19 @@ public class CurriculumChecklistController {
     } // end of countLines method
 
     /**
+     * @author Gerard Alexander Bernados
+     * @return
+     * @throws Exception
+     */
+    public ArrayList<Course> getCourses() throws Exception {
+        int arraySize = countLines("curriculum_checklist.txt");
+        Course[] course = new Course[arraySize];
+        populateCourseWithGradesArray("curriculum_checklist.txt", course);
+        ArrayList<Course> courses= convertToArrayList(course);
+        return courses;
+    }
+
+    /**
      * @author Gerard Alexander Cristal Bernados
      * @param filename
      * @param curriculaArray
@@ -67,8 +80,10 @@ public class CurriculumChecklistController {
     } // end of populateCourseArray method
 
     public void showCourses(ArrayList<Course> courses) {
-        for (Course course : courses) {
-            System.out.println(course);
+        System.out.printf("%-20s%-60s%20s%n","Course Number","Descriptive Title","Units");
+        System.out.printf("%-20s%-60s%20s%n","______________","__________________","______________");
+        for (int i =0; i< courses.size(); i++){
+            System.out.printf("%-20s%-60s%20s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits());
         }
     }
 
