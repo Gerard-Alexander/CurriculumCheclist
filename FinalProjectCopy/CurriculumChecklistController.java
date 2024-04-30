@@ -21,7 +21,7 @@ public class CurriculumChecklistController {
         } catch(Exception exception) {
             exception.printStackTrace();
         }
-    }
+    }//end of main method
     private void run() throws Exception {
         int arraySize = countLines("curriculum_checklist.txt");
         Course[] course = new Course[arraySize];
@@ -29,7 +29,7 @@ public class CurriculumChecklistController {
         ArrayList<Course> courses= convertToArrayList(course);
         showCourses(courses);
 
-    }
+    }//end of run method
 
     /**
      * Computes the General Weighted Average (GWA) for a specific year and term.
@@ -50,7 +50,7 @@ public class CurriculumChecklistController {
         gWA = sumOfGrades / sumOfUnits;
 
         return gWA;
-    }
+    }//end of computeGWA method
 
     /**
      * @author Gerard Alexander Bernados
@@ -111,7 +111,7 @@ public class CurriculumChecklistController {
         for (int i =0; i< courses.size(); i++){
             System.out.printf("%-20s%-60s%20s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits());
         }
-    }
+    }//end of showCourses method
 
     /**
      * @author Gerard Alexander Cristal Bernados
@@ -123,7 +123,7 @@ public class CurriculumChecklistController {
             courses.add(course[i]);
         }
         return courses;
-    }
+    }//end of convertToArrayList method
 
     public void saveCourseListToFile(List<Course> courseList, String fileName) throws IOException {
         List<String> courseStrings = courseList.stream()
@@ -141,8 +141,18 @@ public class CurriculumChecklistController {
                 .collect(Collectors.toList());
         String content = String.join("\n", courseStrings);
         Files.write(Paths.get(fileName), content.getBytes());
-    }
+    }//end of saveCourseListToFile method
 
+
+    /**
+     * This method sorts the courses based on the given field and order.
+     * @author Lance Kenneth G. Cariaga
+     * @param courses   the list of courses to be sorted
+     * @param sortBy    the field to sort by
+     * @param ascending the order of sorting (true for ascending, false for descending)
+     * @return the sorted list of courses
+     * @throws IllegalArgumentException if the sort field is invalid
+     */
 public ArrayList<Course> sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
         Comparator<Course> comparator;
 
