@@ -3,10 +3,6 @@
  *
  */
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 private class AddCourseButtonHandler implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         SwingUtilities.invokeLater(() -> {
