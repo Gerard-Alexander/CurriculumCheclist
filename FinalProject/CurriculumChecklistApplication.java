@@ -13,6 +13,7 @@ import java.util.Scanner;
  * @author Mike Fajardo
  */
 public class CurriculumChecklistApplication {
+    CurriculumChecklistController controller = new CurriculumChecklistController();
     private JFrame mainFrame;
 
     private JPanel sidePanel, sideUpperButtonsPanel, shifterPanel, sideLowerButtonsPanel;
@@ -133,12 +134,12 @@ public class CurriculumChecklistApplication {
             replace "datafile name" with the name of the data file that will be used to get the data for
             the curriculum objects later.
             */
-            ArrayList<Curriculum> curriculumList = populateCurriculumArray("datafile name");
+            ArrayList<Course> curriculumList = populateCurriculumArray("datafile name");
 
             //unfinished
-            Comparator<Curriculum> byYearLevel = Comparator.comparing(Curriculum::getYearLevel);
-            Comparator<Curriculum> byTerm = Comparator.comparing(Curriculum::getTerm);
-            Comparator<Curriculum> byNumberOfUnits = Comparator.comparing(Curriculum::getUnits);
+            Comparator<Course> byYearLevel = Comparator.comparing(Course::getYearLevel);
+            Comparator<Course> byTerm = Comparator.comparing(Course::getTerm);
+            Comparator<Course> byNumberOfUnits = Comparator.comparing(Course::getUnits);
 
         }
     }
@@ -410,21 +411,6 @@ public class CurriculumChecklistApplication {
         inputReader.close();
     }
     */
-
-    private void showCurriculumChecklist(Curriculum[] curriculumArray){
-        //TO DO
-    }
-
-    private void run() throws Exception {
-        int arraySize = countLines("inputfile1.txt");
-        FinalProject.Curriculum[] curricula = new FinalProject.Curriculum[arraySize];
-        populateCurriculumArray("inputfile1.txt", curricula);
-    }
-
-    public static void main(String[] args) {
-        FinalProject.CurriculumChecklistApplication ourProgram = new FinalProject.CurriculumChecklistApplication();
-        try {
-            ourProgram.run();
         } catch(Exception exception) {
             exception.printStackTrace();
         }
