@@ -555,6 +555,36 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * This method is used to display the CS elective courses.
+     * If the units of the course are set to 2211, it is displayed as "2 lec / 1 lab".
+     *
+     * @author Mike Fajardo
+     */
+    private void displayElectiveCourses() {
+        JPanel electivePanel = new JPanel(new GridLayout(23, 1));
+        ArrayList<Course> courses = null;
+        try {
+            courses = controller.getCourses();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        for (Course course : courses) {
+            if (course.isAnElective()) {
+                String units;
+                if (course.getUnits() == 2211) {
+                    units = "2 lec / 1 lab";
+                } else {
+                    units = String.valueOf(course.getUnits());
+                }
+                JLabel courseLabel = new JLabel(String.format("%-10s%-45s%20s%n", course.getCourseNumber(), course.getDescriptiveTitle(), units));
+                courseLabel.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                electivePanel.add(courseLabel);
+            }
+        }
+        JOptionPane.showMessageDialog(mainFrame, electivePanel, "CS Electives", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
      * Truncates a string to a maximum length of 80 characters. If the string is longer than 80 characters,
      * it will be cut off at the 77th character and "..." will be appended to the end.
      *
@@ -644,7 +674,7 @@ public class CurriculumChecklistApplication {
         sidePanel.setBackground(new Color(229, 229, 234));
 
         sideUpperButtonsPanel = new JPanel();
-        sideUpperButtonsPanel.setPreferredSize(new Dimension(200, 200));
+        sideUpperButtonsPanel.setPreferredSize(new Dimension(200, 140));
         sideUpperButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         sideUpperButtonsPanel.setBackground(new Color(229, 229, 234));
 
@@ -664,7 +694,7 @@ public class CurriculumChecklistApplication {
         sideUpperButtonsPanel.add(showGradesButton);
 
         shifterPanel = new JPanel(new BorderLayout());
-        shifterPanel.setPreferredSize(new Dimension(200, 330));
+        shifterPanel.setPreferredSize(new Dimension(200, 390));
         shifterPanel.setBorder(BorderFactory.createEmptyBorder(50, 15, 10, 15));
         shifterPanel.setBackground(new Color(229, 229, 234));
 
@@ -673,11 +703,22 @@ public class CurriculumChecklistApplication {
                 "<br>" +
                 "<br>" +
                 "<p>To add an elective, click on <b>'Show Courses'</b>, then <b>'Edit'</b>. " +
-                "Input 'CSE (n)' in the course number field, where 'n' is the number of the elective " +
-                "(1 for Elective I, 2 for Elective II, and so on). After that, modify the corresponding " +
-                "details as needed.</p></html>");
+                "Input 'CSE <i>n</i>' in the course number field, where 'n' is the number of the elective " +
+                "(1 for Elective I, 2 for Elective II, and so on), for example, CSE 1 for Elective I. After " +
+                "that, modify the corresponding details as needed.<br></p></html>");
+
+        JLabel electiveLink = new JLabel("<html><a href=''>Show list of CS electives</a></html>");
+        electiveLink.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        shifterPanel.add(electiveLink, BorderLayout.SOUTH);
+        electiveLink.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                displayElectiveCourses();
+            }
+        });
 
         shifterPanel.add(ifShifterLabel, BorderLayout.NORTH);
+        shifterPanel.add(electiveLink);
 
         sideLowerButtonsPanel = new JPanel();
         sideLowerButtonsPanel.setPreferredSize(new Dimension(200, 70));
