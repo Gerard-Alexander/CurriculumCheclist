@@ -55,6 +55,7 @@ public class CurriculumChecklistApplication {
     private class ShowCoursesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             showCoursesIsClicked = true;
+            showGradesIsClicked = false;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
@@ -82,7 +83,7 @@ public class CurriculumChecklistApplication {
         }
     }
 
-        private class EditCourseButtonHandler implements ActionListener {
+    private class EditCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
@@ -143,6 +144,7 @@ public class CurriculumChecklistApplication {
     private class ShowGradesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             showGradesIsClicked = true;
+            showCoursesIsClicked = false;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
@@ -295,7 +297,7 @@ public class CurriculumChecklistApplication {
             return str;
         }
     }
-    
+
     private String getYearText(byte y) {
         String yearText = "";
         switch (y) {
@@ -332,7 +334,7 @@ public class CurriculumChecklistApplication {
         mainFrame.setBackground(new Color(242, 242, 247));
         mainFrame.setSize(1200, 670);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.setResizable(false);
+        mainFrame.setResizable(true);
     }
 
     private void setSidePanel() {
