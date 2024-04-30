@@ -609,7 +609,7 @@ public class CurriculumChecklistApplication {
         mainFrame = new JFrame();
         mainFrame.setLayout(new BorderLayout(0, 0));
         mainFrame.setBackground(new Color(242, 242, 247));
-        mainFrame.setSize(1220, 670);
+        mainFrame.setSize(1250, 670);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setResizable(true);
     }
@@ -626,7 +626,7 @@ public class CurriculumChecklistApplication {
         sidePanel.setBackground(new Color(229, 229, 234));
 
         sideUpperButtonsPanel = new JPanel();
-        sideUpperButtonsPanel.setPreferredSize(new Dimension(200, 300));
+        sideUpperButtonsPanel.setPreferredSize(new Dimension(200, 200));
         sideUpperButtonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         sideUpperButtonsPanel.setBackground(new Color(229, 229, 234));
 
@@ -651,7 +651,11 @@ public class CurriculumChecklistApplication {
         shifterPanel.setBackground(new Color(229, 229, 234));
 
         ifShifterLabel = new JLabel("<html><p>If you are shifter from another program, add your " +
-                "finished courses by clicking <b>'Show Courses' > 'Add'</b>.</p></html>");
+                "finished courses by clicking <b>'Show Courses' > 'Add'</b>.</p>" +
+                "<br>" +
+                "<br>" +
+                "<p>To add an elective, click on <b>'Show Courses' > 'Edit'</b>. Input 'CSE' " +
+                "in the course number field, and then modify the corresponding details as needed.</p></html>");
 
         shifterPanel.add(ifShifterLabel, BorderLayout.NORTH);
 
@@ -669,7 +673,7 @@ public class CurriculumChecklistApplication {
         sideLowerButtonsPanel.add(Box.createRigidArea(new Dimension(200, 15)));
 
         sidePanel.add(sideUpperButtonsPanel, BorderLayout.NORTH);
-        sidePanel.add(shifterPanel);
+        sidePanel.add(shifterPanel, BorderLayout.CENTER);
         sidePanel.add(sideLowerButtonsPanel, BorderLayout.SOUTH);
         mainFrame.add(sidePanel, BorderLayout.WEST);
     }
@@ -681,14 +685,14 @@ public class CurriculumChecklistApplication {
      */
     private void setMainPanel() {
         mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(1020, 700));
+        mainPanel.setPreferredSize(new Dimension(1050, 700));
         mainPanel.setBackground(new Color(242, 242, 247));
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(null);
 
         headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.X_AXIS));
-        headerPanel.setPreferredSize(new Dimension(1000, 50));
+        headerPanel.setPreferredSize(new Dimension(1050, 50));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         headerPanel.setBackground(new Color(242, 242, 247));
 
@@ -698,18 +702,18 @@ public class CurriculumChecklistApplication {
         headerPanel.add(yearAndTermLabel);
 
         coursesPanel = new JPanel(new GridLayout(20, 1));
-        coursesPanel.setPreferredSize(new Dimension(1000, 580));
+        coursesPanel.setPreferredSize(new Dimension(1050, 580));
         coursesPanel.setBackground(Color.WHITE);
         coursesPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
         bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setPreferredSize(new Dimension(1000, 70));
+        bottomPanel.setPreferredSize(new Dimension(1050, 70));
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         bottomPanel.setBackground(new Color(242, 242, 247));
 
         bottomButtonsPanel = new JPanel(new BorderLayout());
         bottomButtonsPanel.setBorder(BorderFactory.createEmptyBorder(5, 15, 0, 15));
-        bottomButtonsPanel.setPreferredSize(new Dimension(1000, 40));
+        bottomButtonsPanel.setPreferredSize(new Dimension(1050, 40));
         bottomButtonsPanel.setBackground(new Color(242, 242, 247));
 
         previousNextButtonsPanel = new JPanel(new GridLayout(1, 2));
