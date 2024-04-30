@@ -17,8 +17,8 @@ private class AddCourseButtonHandler implements ActionListener {
                             // Create a new Course object
                             Course course = new Course((byte)1, (byte)1, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
                             // Add the course to the list of courses
-                            // courses.add(course);
-                            // Notify user of successful addition
+                            
+                            // Notify the user of successful addition
                             JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(mainFrame, "Units must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
