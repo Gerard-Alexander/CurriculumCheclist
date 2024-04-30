@@ -27,6 +27,27 @@ public class CurriculumChecklistController {
     }
 
     /**
+     * Computes the General Weighted Average (GWA) for a specific year and term.
+     *
+     * @author Mike Fajardo
+     */
+    public double computeGWA(int year, int term) throws Exception {
+        double gWA;
+        int sumOfGrades = 0;
+        double sumOfUnits = 0.0;
+
+        for (Course c : getCourses()) {
+            if (c.getYearLevel() == year && c.getTerm() == term) {
+                sumOfGrades += c.getGrade();
+                sumOfUnits += c.getUnits();
+            }
+        }
+        gWA = sumOfGrades / sumOfUnits;
+
+        return gWA;
+    }
+
+    /**
      * @author Gerard Alexander Bernados
      * @return
      * @throws Exception
@@ -99,7 +120,7 @@ public class CurriculumChecklistController {
         return courses;
     }
 
-     public void sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
+    public void sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
         Comparator<Course> comparator;
 
         switch (sortBy.toLowerCase()) {
