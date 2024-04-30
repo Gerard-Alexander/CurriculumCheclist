@@ -47,8 +47,6 @@ public class CurriculumChecklistController {
 
     /**
      * @author Gerard Alexander Bernados
-     * @return
-     * @throws Exception
      */
     public ArrayList<Course> getCourses() throws Exception {
         int arraySize = countLines("curriculum_checklist.txt");
@@ -59,11 +57,7 @@ public class CurriculumChecklistController {
     }
 
     /**
-     *
-     * @param filename
-     * @return
-     * @throws FileNotFoundException
-     * @throws Exception
+     * @author Gerard Alexander Bernados
      */
     public int countLines(String filename) throws FileNotFoundException, Exception{
         int count = 0;
@@ -78,10 +72,6 @@ public class CurriculumChecklistController {
 
     /**
      * @author Gerard Alexander Cristal Bernados
-     * @param filename
-     * @param curriculaArray
-     * @throws FileNotFoundException
-     * @throws Exception
      */
     public void populateCourseArray(String filename, Course[] curriculaArray) throws FileNotFoundException, Exception{
         Scanner inputReader = new Scanner(new File(filename));
@@ -97,7 +87,9 @@ public class CurriculumChecklistController {
         }
     } // end of populateCourseArray method
 
-
+    /**
+     * @author Gerard Bernados
+     */
     public void showCourses(ArrayList<Course> courses) {
         System.out.printf("%-20s%-60s%20s%n","Course Number","Descriptive Title","Units");
         System.out.printf("%-20s%-60s%20s%n","______________","__________________","______________");
