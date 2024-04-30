@@ -1,46 +1,58 @@
 private class EditCourseButtonHandler implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        SwingUtilities.invokeLater(() -> {
-            String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
-            if (courseNumber != null && !courseNumber.isEmpty()) {
-                try {
-                    ArrayList<Course> courses = controller.getCourses();
-                    if (courses != null) {
-                        for (Course course : courses) {
-                            if (course.getCourseNumber().equals(courseNumber)) {
-                                String newDescriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the new descriptive title:");
-                                if (newDescriptiveTitle != null && !newDescriptiveTitle.isEmpty()) {
-                                    String unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the new units (must be a number):");
-                                    if (unitsStr != null && !unitsStr.isEmpty()) {
-                                        try {
-                                            byte units = Byte.parseByte(unitsStr);
-                                            course.setDescriptiveTitle(newDescriptiveTitle);
-                                            course.setUnits(units);
+        public void actionPerformed(ActionEvent e) {
+            SwingUtilities.invokeLater(() -> {
+                String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
+                if (courseNumber != null && !courseNumber.isEmpty()) {
+                    try {
+                        ArrayList<Course> courses = controller.getCourses();
+                        if (courses != null) {
+                            for (Course course : courses) {
+                                if (course.getCourseNumber().equals(courseNumber)) {
+                                    String newDescriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the new descriptive title:");
+                                    if (newDescriptiveTitle != null && !newDescriptiveTitle.isEmpty()) {
+                                        String unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the new units (must be a number):");
+                                        if (unitsStr != null && !unitsStr.isEmpty()) {
+                                            try {
+                                                byte units = Byte.parseByte(unitsStr);
+                                                course.setDescriptiveTitle(newDescriptiveTitle);
+                                                course.setUnits(units);
 
-                                            // Notify user of successful edit
-                                            JOptionPane.showMessageDialog(mainFrame, "Course details updated successfully.", "Edit Course", JOptionPane.INFORMATION_MESSAGE);
+                                                // Notify user of successful edit
+                                                JOptionPane.showMessageDialog(mainFrame, "Course details updated successfully.", "Edit Course", JOptionPane.INFORMATION_MESSAGE);
 
-                                            // Refresh the courses display
-                                            showCoursesButtonHandler.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+                                                // Update the course details directly on the GUI
+                                                updateCourseDetailsOnGUI(course);
 
-                                            return; // Exit the method after successfully updating course
-                                        } catch (NumberFormatException ex) {
-                                            JOptionPane.showMessageDialog(mainFrame, "Invalid input for units. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                                                return; // Exit the method after successfully updating course
+                                            } catch (NumberFormatException ex) {
+                                                // Handle number format exception
+                                            }
                                         }
                                     }
-                                } else {
-                                    JOptionPane.showMessageDialog(mainFrame, "New descriptive title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                                 }
                             }
                         }
-                        JOptionPane.showMessageDialog(mainFrame, "Course not found.", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(mainFrame, "No courses found.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
                     }
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                }
+            });
+        }
+
+        private void updateCourseDetailsOnGUI(Course editedCourse) {
+            // Find and update the edited course in the courses panel
+            Component[] components = coursesPanel.getComponents();
+            for (Component component : components) {
+                if (component instanceof JLabel) {
+                    JLabel label = (JLabel) component;
+                    String text = label.getText();
+                    if (text.contains(editedCourse.getCourseNumber())) {
+                        String updatedCourseDetails = String.format("%-20s%-60s%20s%n",
+                                editedCourse.getCourseNumber(), editedCourse.getDescriptiveTitle(), editedCourse.getUnits());
+                        label.setText(updatedCourseDetails);
+                        break; // Exit loop after updating the course
+                    }
                 }
             }
-        });
+        }
     }
-}
