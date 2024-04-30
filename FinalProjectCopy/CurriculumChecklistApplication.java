@@ -10,8 +10,6 @@ import java.util.Comparator;
 
 /**
  * This class provides a graphical user interface for users to interact with the application.
- *
- * @author Mike Fajardo
  */
 public class CurriculumChecklistApplication {
     private JFrame mainFrame;
@@ -47,6 +45,13 @@ public class CurriculumChecklistApplication {
 
     CurriculumChecklistController controller = new CurriculumChecklistController();
 
+    /**
+     * Constructor for the CurriculumChecklistApplication class.
+     * It initializes the main frame, side panel, and main panel of the application.
+     * It also sets the main frame to be visible.
+     * 
+     * @author Mike Fajardo
+     */
     public CurriculumChecklistApplication() {
         setMainFrame();
         setSidePanel();
@@ -54,6 +59,9 @@ public class CurriculumChecklistApplication {
         mainFrame.setVisible(true);
     }
 
+    /**
+     * @author Gerard Bernados
+     */
     private class ShowCoursesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             showCoursesIsClicked = true;
@@ -75,9 +83,7 @@ public class CurriculumChecklistApplication {
 
     /**
      * @author Ravone Ebeng
-     *
      */
-
     private class AddCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
@@ -111,6 +117,9 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * @author Joross Burlas
+     */
     private class EditCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
@@ -176,6 +185,9 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * @author Gerard Bernados
+     */
     private class ShowGradesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             showGradesIsClicked = true;
@@ -275,6 +287,11 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * Handles the Show GWA button.
+     *
+     * @author Mike Evander Fajardo
+     */
     private class ShowGWAButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             showGWAIsClicked = true;
@@ -284,6 +301,11 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * Called the computeGWA method and displays the return value on the coursesPanel.
+     *
+     * @author Mike Evander Fajardo
+     */
     public void displayGWA() {
         try {
             String lines = String.format("%-20s%-90s%s%15s%n","———————————","————————————————————————————","—————————","—————————");
@@ -308,6 +330,11 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * Called the computeGWA method and displays the return value on the coursesPanel.
+     *
+     * @author Mike Evander Fajardo
+     */
     private class PreviousAndNextButtonsHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if (!showCoursesIsClicked && !showGradesIsClicked) {
@@ -351,6 +378,9 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * @author Gerard Bernados
+     */
     private void displayCourses() {
         JLabel labelOfCourse = new JLabel();
         JLabel lines = new JLabel();
@@ -383,6 +413,9 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * @author Gerard Bernados
+     */
     private void displayCoursesWithGrades(ArrayList<Course> list) {
         ArrayList<Course> courses;
         try {
@@ -421,6 +454,12 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * Truncates a string to a maximum length of 80 characters. If the string is longer than 80 characters,
+     * it will be cut off at the 77th character and "..." will be appended to the end.
+     *
+     * @author Mike Evander Fajardo
+     */
     public String cutOffString(String str) {
         if (str.length() > 80) {
             return str.substring(0, 77) + "...";
@@ -429,6 +468,11 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * Returns the year text based on the year number.
+     *
+     * @author Mike Evander Fajardo
+     */
     private String getYearText(byte y) {
         String yearText = "";
         switch (y) {
@@ -440,6 +484,11 @@ public class CurriculumChecklistApplication {
         return yearText;
     }
 
+    /**
+     * Returns the term text based on the term number.
+     *
+     * @author Mike Evander Fajardo
+     */
     private String getTermText(byte t) {
         String termText = "";
         switch (t) {
@@ -450,15 +499,30 @@ public class CurriculumChecklistApplication {
         return termText;
     }
 
+    /**
+     * Sets the year and term label text.
+     *
+     * @author Mike Evander Fajardo
+     */
     private void setYearAndTermLabel(byte y, byte t) {
         yearAndTermLabel.setText(getYearText(y) + ", " + getTermText(t));
     }
 
+    /**
+     * Resets the year and term to 1.
+     *
+     * @author Mike Evander Fajardo
+     */
     private void resetYearAndTerm() {
         currentYear = 1;
         currentTerm = 1;
     }
 
+    /**
+     * Sets up the main frame of the application.
+     *
+     * @author Mike Evander Fajardo
+     */
     private void setMainFrame() {
         mainFrame = new JFrame();
         mainFrame.setLayout(new BorderLayout(0, 0));
@@ -468,6 +532,11 @@ public class CurriculumChecklistApplication {
         mainFrame.setResizable(true);
     }
 
+    /**
+     * Sets up the side panel of the application.
+     *
+     * @author Mike Evander Fajardo
+     */
     private void setSidePanel() {
         sidePanel = new JPanel();
         sidePanel.setLayout(new BorderLayout());
@@ -523,6 +592,11 @@ public class CurriculumChecklistApplication {
         mainFrame.add(sidePanel, BorderLayout.WEST);
     }
 
+    /**
+     * Sets up the main panel of the application.
+     *
+     * @author Mike Evander Fajardo
+     */
     private void setMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setPreferredSize(new Dimension(1000, 700));
