@@ -7,6 +7,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ @author Mike Fajardo
+ Methods for the handlers are done by other members in the Controller class.
+ */
 public class CurriculumChecklistApplication {
     private JFrame mainFrame;
 
