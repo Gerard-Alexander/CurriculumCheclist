@@ -2,7 +2,7 @@
 1, 1, CS 111L, Introduction to Computing Lab, 1, 0, , , false, false
 1, 1, CS 112, Computer Programming 1, 2, 0, , , false, false
 1, 1, CS 112L, Computer Programming 1 Lab, 1, 0, , , false, false
-1, 1, CS113, Discrete Structures, 3, 0, , , false, false
+1, 1, CS 113, Discrete Structures, 3, 0, , , false, false
 1, 1, GMATH, Mathematics in the Modern World, 3, 0, , , false, false
 1, 1, GART, Art Appreciation, 3, 0, , , false, false
 1, 1, GHIST, Readings in Philippine History, 3, 0, , , false, false
