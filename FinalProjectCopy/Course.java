@@ -1,5 +1,11 @@
 package FinalProjectDummt;
 
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /**
  * @author Lance Cariaga & Gerard Bernados
  */
@@ -42,54 +48,54 @@ public class Course implements Comparable<Course> {
         isAnElective = el;
     }
 
-    public String getCourseNumber() {
-        return courseNumber;
-    }
-
-    public String getDescriptiveTitle() {
-        return descriptiveTitle;
-    }
-
-    public double getUnits() {
-        return units;
-    }
-
-    public byte getTerm() {
-        return term;
-    }
-
     public byte getYearLevel() {
         return yearLevel;
     }
 
+    public void setYearLevel(byte yearLevel) {
+        this.yearLevel = yearLevel;
+    }
+    
+    public byte getTerm() {
+        return term;
+    }
+
+    public void setTerm(byte term) {
+        this.term = term;
+    }
+    
+    public String getCourseNumber() {
+        return courseNumber;
+    }
+
+    public void setCourseNumber(String courseNumber) {
+        this.courseNumber = courseNumber;
+    }
+    
+    public String getDescriptiveTitle() {
+        return descriptiveTitle;
+    }
+
+    public void setDescriptiveTitle(String descriptiveTitle) {
+        this.descriptiveTitle = descriptiveTitle;
+    }
+    
+    public double getUnits() {
+        return units;
+    }
+
+    public void setUnits(double units) {
+        this.units = units;
+    }
+    
     public int getGrade() {
         return grade;
     }
 
-    public void setCourseNumber(String CourseNumber) {
-        courseNumber = CourseNumber;
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
-
-    public void setDescriptiveTitle(String DescriptiveTitle) {
-        descriptiveTitle = DescriptiveTitle;
-    }
-
-    public void setUnits(byte Units) {
-        units = Units;
-    }
-
-    public void setTerm(byte Term) {
-        term = Term;
-    }
-
-    public void setYearLevel(byte YearLevel) {
-        yearLevel = YearLevel;
-    }
-
-    public void setGrade(int Grade) {
-        grade = Grade;
-    }
-
+    
     public String getPreReq() {
         return preReq;
     }
@@ -97,7 +103,7 @@ public class Course implements Comparable<Course> {
     public void setPreReq(String preReq) {
         this.preReq = preReq;
     }
-
+    
     public String getCoReq() {
         return coReq;
     }
@@ -105,22 +111,23 @@ public class Course implements Comparable<Course> {
     public void setCoReq(String coReq) {
         this.coReq = coReq;
     }
-
+    
     public boolean isFinished() {
         return isFinished;
     }
 
-    public void setFinished(boolean finished) {
-        isFinished = finished;
+    public void setFinished(boolean isFinished) {
+        this.isFinished = isFinished;
     }
-
+    
     public boolean isAnElective() {
         return isAnElective;
     }
 
-    public void setAnElective(boolean anElective) {
-        isAnElective = anElective;
+    public void setAnElective(boolean isAnElective) {
+        this.isAnElective = isAnElective;
     }
+    
     public String toString() {
         return yearLevel +", "+term+", "+courseNumber+", "+descriptiveTitle+", "+units+", "+grade+", "+preReq+", "+coReq+", "+isFinished+", "+isAnElective;
     }
