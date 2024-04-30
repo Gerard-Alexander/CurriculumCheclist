@@ -50,7 +50,7 @@ public class CurriculumChecklistApplication {
 
     private class ShowCoursesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            resetYearAndTerm();
+             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
             actionButtonsPanel.add(addCourseButton);
@@ -58,9 +58,33 @@ public class CurriculumChecklistApplication {
             actionButtonsPanel.add(editCourseButton);
             actionButtonsPanel.revalidate();
             actionButtonsPanel.repaint();
-
-
-        }
+            JLabel labelOfCourse = new JLabel();
+            JLabel lines = new JLabel();
+            try {
+                ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
+                String stringLabelOfCourse = String.format("%-20s%-60s%20s%n","Course Number","Descriptive Title","Units");
+                String stringLines = String.format("%-20s%-60s%20s%n","______________","__________________","______________");
+                labelOfCourse.setText(stringLabelOfCourse);
+                lines.setText(stringLines);
+                labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                lines.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                labelOfCourse.setHorizontalAlignment(JLabel.LEFT);
+                lines.setHorizontalAlignment(JLabel.LEFT);
+                coursesPanel.add(labelOfCourse);
+                coursesPanel.add(lines);
+                for (int i =0; i< courses.size(); i++){
+                    if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
+                        JLabel nameOfCourses = new JLabel();
+                        String stringNameOfCourses = String.format("%-20s%-60s%20s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits());
+                       nameOfCourses.setText(stringNameOfCourses);
+                       nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                       nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
+                       coursesPanel.add(nameOfCourses);
+                    }
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
     }
 
     private class AddCourseButtonHandler implements ActionListener {
