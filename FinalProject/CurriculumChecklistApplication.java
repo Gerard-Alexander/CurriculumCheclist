@@ -96,7 +96,13 @@ public class CurriculumChecklistApplication {
 
     private class RemoveCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // TO-DO
+              if (e.getSource() instanceof JButton) {
+            JButton deleteButton = (JButton) e.getSource();
+
+            for (int i = 0; i < courses.length; i++) {
+                if (courses[i] == deleteButton) {
+                    courses[i].setEnabled(false);
+                    break;
         }
     }
 
