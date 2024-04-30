@@ -409,10 +409,10 @@ public class CurriculumChecklistApplication {
 
         previousAndNextButtonsHandler = new PreviousAndNextButtonsHandler();
 
-        previousButton = new JButton("<");
+        previousButton = new JButton("<<");
         previousButton.setPreferredSize(new Dimension(30, 30));
         previousButton.addActionListener(previousAndNextButtonsHandler);
-        nextButton = new JButton(">");
+        nextButton = new JButton(">>");
         nextButton.setPreferredSize(new Dimension(30, 30));
         nextButton.addActionListener(previousAndNextButtonsHandler);
 
