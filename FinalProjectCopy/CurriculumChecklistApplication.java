@@ -102,7 +102,46 @@ public class CurriculumChecklistApplication {
 
     private class EditCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // TO-DO
+            String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
+            if (courseNumber != null && !courseNumber.isEmpty()) {
+                try {
+                    ArrayList<Course> courses = controller.getCourses();
+                    if (courses != null) {
+                        for (Course course : courses) {
+                            if (course.getCourseNumber().equals(courseNumber)) {
+                                String newDescriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the new descriptive title:");
+                                if (newDescriptiveTitle != null && !newDescriptiveTitle.isEmpty()) {
+                                    String unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the new units (must be a number):");
+                                    if (unitsStr != null && !unitsStr.isEmpty()) {
+                                        try {
+                                            byte units = Byte.parseByte(unitsStr);
+                                            course.setDescriptiveTitle(newDescriptiveTitle);
+                                            course.setUnits(units);
+
+                                            // Notify user of successful edit
+                                            JOptionPane.showMessageDialog(mainFrame, "Course details updated successfully.", "Edit Course", JOptionPane.INFORMATION_MESSAGE);
+
+                                            // Refresh the courses display
+                                            showCoursesButtonHandler.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, null));
+
+                                            return; // Exit the method after successfully updating course
+                                        } catch (NumberFormatException ex) {
+                                            JOptionPane.showMessageDialog(mainFrame, "Invalid input for units. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+                                        }
+                                    }
+                                } else {
+                                    JOptionPane.showMessageDialog(mainFrame, "New descriptive title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                        JOptionPane.showMessageDialog(mainFrame, "Course not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(mainFrame, "No courses found.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
     }
 
