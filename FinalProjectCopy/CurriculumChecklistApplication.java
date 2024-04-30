@@ -315,6 +315,7 @@ public class CurriculumChecklistApplication {
     private void setMainFrame() {
         mainFrame = new JFrame();
         mainFrame.setLayout(new BorderLayout(0, 0));
+        mainFrame.setBackground(new Color(242, 242, 247));
         mainFrame.setSize(1200, 670);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setResizable(false);
