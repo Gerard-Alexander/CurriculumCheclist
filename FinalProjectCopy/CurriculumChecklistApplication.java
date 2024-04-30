@@ -82,7 +82,7 @@ public class CurriculumChecklistApplication {
         }
     }
 
-    private class EditCourseButtonHandler implements ActionListener {
+        private class EditCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
@@ -106,8 +106,8 @@ public class CurriculumChecklistApplication {
 
                                                 // Update the course details directly on the GUI
                                                 updateCourseDetailsOnGUI(course);
+
                                                 return; // Exit the method after successfully updating course
-                                                
                                             } catch (NumberFormatException ex) {
                                                 // Handle number format exception
                                             }
@@ -122,6 +122,23 @@ public class CurriculumChecklistApplication {
                 }
             });
         }
+
+        private void updateCourseDetailsOnGUI(Course editedCourse) {
+            // Find and update the edited course in the courses panel
+            Component[] components = coursesPanel.getComponents();
+            for (Component component : components) {
+                if (component instanceof JLabel) {
+                    JLabel label = (JLabel) component;
+                    String text = label.getText();
+                    if (text.contains(editedCourse.getCourseNumber())) {
+                        String updatedCourseDetails = String.format("%-20s%-90s%20s%n", editedCourse.getCourseNumber(), editedCourse.getDescriptiveTitle(), editedCourse.getUnits());
+                        label.setText(updatedCourseDetails);
+                        break; // Exit loop after updating the course
+                    }
+                }
+            }
+        }
+    }
 
     private class ShowGradesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
