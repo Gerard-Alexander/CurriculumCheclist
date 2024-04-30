@@ -3,10 +3,8 @@ package FinalProjectDummt;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-
+import java.io.*;
+import java.util.*;
 
 /**
  * This class provides a graphical user interface for users to interact with the application.
@@ -49,7 +47,7 @@ public class CurriculumChecklistApplication {
      * Constructor for the CurriculumChecklistApplication class.
      * It initializes the main frame, side panel, and main panel of the application.
      * It also sets the main frame to be visible.
-     * 
+     *
      * @author Mike Fajardo
      */
     public CurriculumChecklistApplication() {
