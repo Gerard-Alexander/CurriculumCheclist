@@ -1,6 +1,6 @@
-
 private class EditCourseButtonHandler implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {
+        SwingUtilities.invokeLater(() -> {
             String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
             if (courseNumber != null && !courseNumber.isEmpty()) {
                 try {
@@ -41,5 +41,6 @@ private class EditCourseButtonHandler implements ActionListener {
                     throw new RuntimeException(ex);
                 }
             }
-        }
+        });
     }
+}
