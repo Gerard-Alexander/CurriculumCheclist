@@ -84,18 +84,27 @@ public class CurriculumChecklistController {
         return courses;
     }
 
-    public void sortArray(){
-        // TO-DO
-            /*Gets the list of the Curriculum by using the populateCurriculumArray method.
-            replace "datafile name" with the name of the data file that will be used to get the data for
-            the curriculum objects later.
-            */
-//        ArrayList<Course> curriculumList = populateCurriculumArray("datafile name",);
-
-        //unfinished
-        Comparator<Course> byYearLevel = Comparator.comparing(Course::getYearLevel);
-        Comparator<Course> byTerm = Comparator.comparing(Course::getTerm);
-        Comparator<Course> byNumberOfUnits = Comparator.comparing(Course::getUnits);
+     public void sortCourses(ArrayList<Course> courses, String sortBy) {
+        switch (sortBy) {
+            case "Course Number":
+                courses.sort(Comparator.comparing(Course::getCourseNumber));
+                break;
+            case "Descriptive Title":
+                courses.sort(Comparator.comparing(Course::getDescriptiveTitle));
+                break;
+            case "Grade":
+                //sorts the array by grades in descending order
+                courses.sort(Comparator.comparingInt(Course::getGrade).reversed());
+                break;
+            case "Units":
+                //sorts the array by number of units in descending order
+                courses.sort(Comparator.comparingDouble(Course::getUnits).reversed());
+                break;
+            default:
+                System.out.println("Invalid sorting criteria.");
+                break;
+        }
+    }//end of SortCourses method
 
     }//end of Course class
 }
