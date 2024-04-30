@@ -258,7 +258,7 @@ public class CurriculumChecklistApplication {
                         if (courses!= null) {
                             for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
-                                    String newGrade = JOptionPane.showInputDialog(mainFrame, "Enter the new grade (must be a number between 0 and 100):");
+                                    String newGrade = JOptionPane.showInputDialog(mainFrame, "Enter the new grade (must be a number from 65 to 99):");
                                     if (newGrade!= null &&!newGrade.isEmpty()) {
                                         try {
                                             int grade = Integer.parseInt(newGrade);
@@ -286,11 +286,11 @@ public class CurriculumChecklistApplication {
 
                                                 return; // Exit the method after successfully updating grade
                                             } else {
-                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number between 66 and 99.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
+                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number from 65 to 99.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
                                             }
                                         } catch (NumberFormatException ex) {
                                             // Handle number format exception
-                                            JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number between 0 and 100.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
+                                            JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number from 65 to 99.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
                                         }
                                     }
                                 }
