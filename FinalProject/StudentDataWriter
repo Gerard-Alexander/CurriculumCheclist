@@ -1,4 +1,8 @@
 import java.io.*;
+/**
+ * This method is a printwriter method
+ * @author Jeoffrie Ross Burlas
+ */
 
 public class StudentDataWriter {
 
