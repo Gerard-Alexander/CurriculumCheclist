@@ -8,8 +8,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
- @author Mike Fajardo
- Methods for the handlers are done by other members in the Controller class.
+ * This class provides a graphical user interface for users to interact with the application.
+ *
+ * @author Mike Fajardo
  */
 public class CurriculumChecklistApplication {
     private JFrame mainFrame;
@@ -36,8 +37,8 @@ public class CurriculumChecklistApplication {
     private SortButtonHandler sortButtonHandler;
     private ShowGWAButtonHandler showGWAButtonHandler;
 
-    private byte currentYear = 1;
-    private byte currentTerm = 1;
+    byte currentYear = 1;
+    byte currentTerm = 1;
 
     public CurriculumChecklistApplication() {
         setMainFrame();
