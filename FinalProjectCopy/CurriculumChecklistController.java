@@ -6,7 +6,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CurriculumChecklistController {
-
     public static void main(String[] args) {
         CurriculumChecklistController ourProgram = new CurriculumChecklistController();
         new CurriculumChecklistApplication();
@@ -16,6 +15,7 @@ public class CurriculumChecklistController {
             exception.printStackTrace();
         }
     }
+    
     private void run() throws Exception {
         int arraySize = countLines("curriculum_checklist.txt");
         Course[] course = new Course[arraySize];
