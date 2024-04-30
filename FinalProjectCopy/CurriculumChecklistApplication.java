@@ -17,8 +17,9 @@ public class CurriculumChecklistApplication {
     private JFrame mainFrame;
 
     private JPanel sidePanel, sideUpperButtonsPanel, shifterPanel, sideLowerButtonsPanel;
-    private JPanel mainPanel, headerPanel, coursesPanel, bottomPanel;
+    private JPanel mainPanel, headerPanel, bottomPanel;
     private JPanel bottomButtonsPanel, actionButtonsPanel, previousNextButtonsPanel;
+    JPanel coursesPanel; // No access modifier to be used my other classes
 
     private JButton showCoursesButton, showGradesButton, quitButton;
     private JButton addCourseButton, removeCourseButton, editCourseButton;
@@ -228,7 +229,7 @@ public class CurriculumChecklistApplication {
             for (int i =0; i< courses.size(); i++){
                 if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
                     JLabel nameOfCourses = new JLabel();
-                    String title = truncateString(courses.get(i).getDescriptiveTitle());
+                    String title = cutOffString(courses.get(i).getDescriptiveTitle());
                     String courseDetails = String.format("%-20s%-90s%20s%n",courses.get(i).getCourseNumber(),
                             title,courses.get(i).getUnits());
                     nameOfCourses.setText(courseDetails);
@@ -260,7 +261,7 @@ public class CurriculumChecklistApplication {
             for (int i =0; i< courses.size(); i++){
                 if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
                     JLabel nameOfCourses = new JLabel();
-                    String title = truncateString(courses.get(i).getDescriptiveTitle());
+                    String title = cutOffString(courses.get(i).getDescriptiveTitle());
                     String stringNameOfCourses = String.format("%-20s%-90s%s%15s%n",courses.get(i).getCourseNumber(),
                             title,courses.get(i).getUnits(), courses.get(i).getGrade());
                     nameOfCourses.setText(stringNameOfCourses);
@@ -274,14 +275,14 @@ public class CurriculumChecklistApplication {
         }
     }
 
-    public String truncateString(String str) {
+    public String cutOffString(String str) {
         if (str.length() > 80) {
             return str.substring(0, 77) + "...";
         } else {
             return str;
         }
     }
-
+    
     private String getYearText(byte y) {
         String yearText = "";
         switch (y) {
