@@ -87,17 +87,6 @@ public class CurriculumChecklistController {
     } // end of populateCourseArray method
 
     /**
-     * @author Gerard Bernados
-     */
-    public void showCourses(ArrayList<Course> courses) {
-        System.out.printf("%-20s%-60s%20s%n","Course Number","Descriptive Title","Units");
-        System.out.printf("%-20s%-60s%20s%n","______________","__________________","______________");
-        for (int i =0; i< courses.size(); i++){
-            System.out.printf("%-20s%-60s%20s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits());
-        }
-    }
-
-    /**
      * @author Gerard Alexander Cristal Bernados
      */
     private ArrayList<Course> convertToArrayList(Course[] course){
