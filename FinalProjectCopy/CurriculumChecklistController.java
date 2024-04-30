@@ -15,7 +15,7 @@ public class CurriculumChecklistController {
             exception.printStackTrace();
         }
     }
-    
+
     private void run() throws Exception {
         int arraySize = countLines("curriculum_checklist.txt");
         Course[] course = new Course[arraySize];
@@ -127,7 +127,15 @@ public class CurriculumChecklistController {
         Files.write(Paths.get(fileName), content.getBytes());
     }
 
-    public void sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
+    /**
+     * This method sorts the courses based on the given field and order.
+     * @author Lance Kenneth G. Cariaga
+     * @param courses   the list of courses to be sorted
+     * @param sortBy    the field to sort by
+     * @param ascending the order of sorting (true for ascending, false for descending)
+     * @return the sorted list of courses
+     */
+    public ArrayList<Course> sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
         Comparator<Course> comparator;
 
         switch (sortBy.toLowerCase()) {
@@ -150,7 +158,13 @@ public class CurriculumChecklistController {
         if (!ascending) {
             comparator = comparator.reversed();
         }
+        courses.sort(comparator);//sorts the courses based on the comparator
 
-        courses.sort(comparator);
+        // Prints the sorted courses
+        System.out.println("Sorted courses:");
+        for (Course course : courses) {
+            System.out.println(course);
+        }
+        return courses;
     } // end of SortCourses method
 }
