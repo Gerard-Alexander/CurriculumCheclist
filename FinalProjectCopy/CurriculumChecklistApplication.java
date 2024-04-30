@@ -3,6 +3,7 @@ package FinalProjectDummt;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -71,9 +72,35 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * @author Ravone Ebeng
+     *
+     */
+
     private class AddCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // TO-DO
+            SwingUtilities.invokeLater(() -> {
+                String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number:");
+                if (courseNumber != null && !courseNumber.isEmpty()) {
+                    String descriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the descriptive title:");
+                    if (descriptiveTitle != null && !descriptiveTitle.isEmpty()) {
+                        String unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the units (must be a number):");
+                        if (unitsStr != null && !unitsStr.isEmpty()) {
+                            try {
+                                double units = Double.parseDouble(unitsStr);
+                                // Create a new Course object
+                                Course course = new Course((byte)1, (byte)1, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
+                                // Add the course to the list of courses
+
+                                // Notify the user of successful addition
+                                JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
+                            } catch (NumberFormatException ex) {
+                                JOptionPane.showMessageDialog(mainFrame, "Units must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -87,16 +114,16 @@ public class CurriculumChecklistApplication {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
-                if (courseNumber != null && !courseNumber.isEmpty()) {
+                if (courseNumber!= null &&!courseNumber.isEmpty()) {
                     try {
                         ArrayList<Course> courses = controller.getCourses();
-                        if (courses != null) {
+                        if (courses!= null) {
                             for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
                                     String newDescriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the new descriptive title:");
-                                    if (newDescriptiveTitle != null && !newDescriptiveTitle.isEmpty()) {
+                                    if (newDescriptiveTitle!= null &&!newDescriptiveTitle.isEmpty()) {
                                         String unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the new units (must be a number):");
-                                        if (unitsStr != null && !unitsStr.isEmpty()) {
+                                        if (unitsStr!= null &&!unitsStr.isEmpty()) {
                                             try {
                                                 byte units = Byte.parseByte(unitsStr);
                                                 course.setDescriptiveTitle(newDescriptiveTitle);
@@ -107,6 +134,13 @@ public class CurriculumChecklistApplication {
 
                                                 // Update the course details directly on the GUI
                                                 updateCourseDetailsOnGUI(course);
+
+                                                // Save the updated course list to a file
+                                                try {
+                                                    controller.saveCourseListToFile(courses, "curriculum_checklist.txt"); // Pass false to prevent resetting the file
+                                                } catch (IOException ex) {
+                                                    JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                                }
 
                                                 return; // Exit the method after successfully updating course
                                             } catch (NumberFormatException ex) {
@@ -160,18 +194,21 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * @author Gerard Alexander C. Bernados
+     */
     private class EnterGradeButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit the grade:");
-                if (courseNumber != null && !courseNumber.isEmpty()) {
+                if (courseNumber!= null &&!courseNumber.isEmpty()) {
                     try {
                         ArrayList<Course> courses = controller.getCourses();
-                        if (courses != null) {
+                        if (courses!= null) {
                             for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
                                     String newGrade = JOptionPane.showInputDialog(mainFrame, "Enter the new grade (must be a number between 0 and 100):");
-                                    if (newGrade != null && !newGrade.isEmpty()) {
+                                    if (newGrade!= null &&!newGrade.isEmpty()) {
                                         try {
                                             int grade = Integer.parseInt(newGrade);
                                             if (grade >= 0 && grade <= 100) {
@@ -182,6 +219,13 @@ public class CurriculumChecklistApplication {
 
                                                 // Update the grade directly on the GUI
                                                 updateGradeOnGUI(course);
+
+                                                // Save the updated course list to a file
+                                                try {
+                                                    controller.saveCourseListToFile(courses, "curriculum_checklist.txt"); // Pass false to prevent resetting the file
+                                                } catch (IOException ex) {
+                                                    JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                                }
 
                                                 return; // Exit the method after successfully updating grade
                                             } else {
@@ -528,7 +572,6 @@ public class CurriculumChecklistApplication {
 
         bottomButtonsPanel.add(previousNextButtonsPanel, BorderLayout.WEST);
         bottomButtonsPanel.add(actionButtonsPanel, BorderLayout.EAST);
-
         bottomPanel.add(bottomButtonsPanel, BorderLayout.NORTH);
 
         mainPanel.add(headerPanel, BorderLayout.NORTH);
