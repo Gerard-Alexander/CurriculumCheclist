@@ -21,7 +21,6 @@ public class CurriculumChecklistController {
         Course[] course = new Course[arraySize];
         populateCourseArray("dynamic_curriculum_checklist.txt", course);
         ArrayList<Course> courses= convertToArrayList(course);
-        showCourses(courses);
     }
 
     /**
