@@ -99,8 +99,30 @@ public class CurriculumChecklistController {
         return courses;
     }
 
-    public void sortCourses(ArrayList<Course> courses, String sortBy) {
-        // Sorts the array by grades in descending order
-        courses.sort(Comparator.comparingInt(Course::getGrade).reversed());
+     public void sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
+        Comparator<Course> comparator;
+
+        switch (sortBy.toLowerCase()) {
+            case "descriptive title":
+                comparator = Comparator.comparing(Course::getDescriptiveTitle);
+                break;
+            case "course number":
+                comparator = Comparator.comparing(Course::getCourseNumber);
+                break;
+            case "number of units":
+                comparator = Comparator.comparingDouble(Course::getUnits);
+                break;
+            case "grade":
+                comparator = Comparator.comparingInt(Course::getGrade);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid sort field: " + sortBy);
+        }
+
+        if (!ascending) {
+            comparator = comparator.reversed();
+        }
+
+        courses.sort(comparator);
     }//end of SortCourses method
 }
