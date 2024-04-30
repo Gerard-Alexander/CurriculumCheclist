@@ -478,7 +478,7 @@ public class CurriculumChecklistApplication {
             lines.setHorizontalAlignment(JLabel.LEFT);
             coursesPanel.add(labelOfCourse);
             coursesPanel.add(lines);
-            for (int i =0; i< courses.size(); i++){
+            for (int i = 0; i< courses.size(); i++){
                 if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
                     JLabel nameOfCourses = new JLabel();
                     String title = cutOffString(courses.get(i).getDescriptiveTitle());
@@ -654,8 +654,10 @@ public class CurriculumChecklistApplication {
                 "finished courses by clicking <b>'Show Courses' > 'Add'</b>.</p>" +
                 "<br>" +
                 "<br>" +
-                "<p>To add an elective, click on <b>'Show Courses' > 'Edit'</b>. Input 'CSE' " +
-                "in the course number field, and then modify the corresponding details as needed.</p></html>");
+                "<p>To add an elective, click on <b>'Show Courses'</b>, then <b>'Edit'</b>. " +
+                "Input 'CSE (n)' in the course number field, where 'n' is the number of the elective " +
+                "(1 for Elective I, 2 for Elective II, and so on). After that, modify the corresponding " +
+                "details as needed.</p></html>");
 
         shifterPanel.add(ifShifterLabel, BorderLayout.NORTH);
 
