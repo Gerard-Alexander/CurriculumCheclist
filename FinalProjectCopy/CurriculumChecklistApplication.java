@@ -609,7 +609,7 @@ public class CurriculumChecklistApplication {
         mainFrame = new JFrame();
         mainFrame.setLayout(new BorderLayout(0, 0));
         mainFrame.setBackground(new Color(242, 242, 247));
-        mainFrame.setSize(1200, 670);
+        mainFrame.setSize(1220, 670);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mainFrame.setResizable(true);
     }
@@ -681,8 +681,8 @@ public class CurriculumChecklistApplication {
      */
     private void setMainPanel() {
         mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(1000, 700));
-        mainPanel.setBackground(Color.ORANGE);
+        mainPanel.setPreferredSize(new Dimension(1020, 700));
+        mainPanel.setBackground(new Color(242, 242, 247));
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(null);
 
@@ -727,7 +727,7 @@ public class CurriculumChecklistApplication {
         previousNextButtonsPanel.add(nextButton);
 
         actionButtonsPanel = new JPanel(new GridLayout(1, 3));
-        actionButtonsPanel.setPreferredSize(new Dimension(270, 30));
+        actionButtonsPanel.setPreferredSize(new Dimension(330, 30));
         actionButtonsPanel.setBackground(new Color(242, 242, 247));
 
         addCourseButton = new JButton("Add");
