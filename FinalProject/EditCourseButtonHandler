@@ -47,8 +47,7 @@ private class EditCourseButtonHandler implements ActionListener {
                     JLabel label = (JLabel) component;
                     String text = label.getText();
                     if (text.contains(editedCourse.getCourseNumber())) {
-                        String updatedCourseDetails = String.format("%-20s%-60s%20s%n",
-                                editedCourse.getCourseNumber(), editedCourse.getDescriptiveTitle(), editedCourse.getUnits());
+                        String updatedCourseDetails = String.format("%-20s%-60s%20s%n", editedCourse.getCourseNumber(), editedCourse.getDescriptiveTitle(), editedCourse.getUnits());
                         label.setText(updatedCourseDetails);
                         break; // Exit loop after updating the course
                     }
