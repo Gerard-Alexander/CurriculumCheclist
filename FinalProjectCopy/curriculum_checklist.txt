@@ -65,11 +65,11 @@
 4, 1, CS 411, CS Thesis I, 3, 0, CS 324, , false, false
 4, 1, CS 412, Information Assurance and Security, 3, 0, core courses/CS 231, , false, false
 4, 1, CS 413, Professional Practice and Cyberethics, 3, 0, GETHICS/CS 231, , false, false
-4, 1, CSE, Elective I, 3, 0, 3rd year standing, , false, true
-4, 1, CSE, Elective II, 3, 0, 3rd year standing, , false, true
+4, 1, CSE, Elective I, 3, 0, 3rd year standing, , false, false
+4, 1, CSE, Elective II, 3, 0, 3rd year standing, , false, false
 4, 2, CFE 106B, Embracing the CICM Mission, 1.5, 0, CFE 106A, , false, false
 4, 2, CS 421, CS Thesis II, 3, 0, CS 411, , false, false
 4, 2, CS 422, Distributed Computing, 3, 0, , , false, false
 4, 2, FOR LANG1, Foreign Language I, 3, 0, , , false, false
-4, 2, CSE, Elective III, 3, 0, 4th year standing, , false, true
-4, 2, CSE, Elective IV, 3, 0, 4th year standing, , false, true
+4, 2, CSE, Elective III, 3, 0, 4th year standing, , false, false
+4, 2, CSE, Elective IV, 3, 0, 4th year standing, , false, false
