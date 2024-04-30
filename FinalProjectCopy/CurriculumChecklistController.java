@@ -2,9 +2,14 @@ package FinalProjectDummt;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class CurriculumChecklistController {
 
@@ -118,6 +123,24 @@ public class CurriculumChecklistController {
             courses.add(course[i]);
         }
         return courses;
+    }
+
+    public void saveCourseListToFile(List<Course> courseList, String fileName) throws IOException {
+        List<String> courseStrings = courseList.stream()
+                .map(course -> String.format("%d, %d, %s, %s, %.1f, %d, %s, %s, %b, %b",
+                        course.getYearLevel(),
+                        course.getTerm(),
+                        course.getCourseNumber(),
+                        course.getDescriptiveTitle(),
+                        course.getUnits(),
+                        course.getGrade(),
+                        course.getPreReq(),
+                        course.getCoReq(),
+                        course.isFinished(),
+                        course.isAnElective()))
+                .collect(Collectors.toList());
+        String content = String.join("\n", courseStrings);
+        Files.write(Paths.get(fileName), content.getBytes());
     }
 
     public void sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
