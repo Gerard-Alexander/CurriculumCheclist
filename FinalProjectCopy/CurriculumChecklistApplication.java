@@ -53,12 +53,15 @@ public class CurriculumChecklistApplication {
             actionButtonsPanel.add(editCourseButton);
             actionButtonsPanel.revalidate();
             actionButtonsPanel.repaint();
+            coursesPanel.removeAll();
+            coursesPanel.repaint();
+            coursesPanel.revalidate();
             JLabel labelOfCourse = new JLabel();
             JLabel lines = new JLabel();
             try {
                 ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
                 String stringLabelOfCourse = String.format("%-20s%-60s%20s%n","Course Number","Descriptive Title","Units");
-                String stringLines = String.format("%-20s%-60s%20s%n","______________","__________________","______________");
+                String stringLines = String.format("%-20s%-60s%20s%n","___________","____________________________","_________");
                 labelOfCourse.setText(stringLabelOfCourse);
                 lines.setText(stringLines);
                 labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -71,10 +74,10 @@ public class CurriculumChecklistApplication {
                     if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
                         JLabel nameOfCourses = new JLabel();
                         String stringNameOfCourses = String.format("%-20s%-60s%20s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits());
-                       nameOfCourses.setText(stringNameOfCourses);
-                       nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                       nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
-                       coursesPanel.add(nameOfCourses);
+                        nameOfCourses.setText(stringNameOfCourses);
+                        nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                        nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
+                        coursesPanel.add(nameOfCourses);
                     }
                 }
             } catch (Exception ex) {
@@ -103,6 +106,7 @@ public class CurriculumChecklistApplication {
 
     private class ShowGradesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+//            showGradedIsClicked = true;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
@@ -111,8 +115,36 @@ public class CurriculumChecklistApplication {
             actionButtonsPanel.add(showGWAButton);
             actionButtonsPanel.revalidate();
             actionButtonsPanel.repaint();
-
-            // TO-DO
+            coursesPanel.removeAll();
+            coursesPanel.repaint();
+            coursesPanel.revalidate();
+            JLabel labelOfCourse = new JLabel();
+            JLabel lines = new JLabel();
+            try {
+                ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
+                String stringLabelOfCourse = String.format("%-20s%-60s%s%15s%n","Course Number","Descriptive Title","Units","Grade");
+                String stringLines = String.format("%-20s%-60s%s%15s%n","___________","____________________________","_________","_________");
+                labelOfCourse.setText(stringLabelOfCourse);
+                lines.setText(stringLines);
+                labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                lines.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                labelOfCourse.setHorizontalAlignment(JLabel.LEFT);
+                lines.setHorizontalAlignment(JLabel.LEFT);
+                coursesPanel.add(labelOfCourse);
+                coursesPanel.add(lines);
+                for (int i =0; i< courses.size(); i++){
+                    if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
+                        JLabel nameOfCourses = new JLabel();
+                        String stringNameOfCourses = String.format("%-20s%-60s%s%15s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits(), courses.get(i).getGrade());
+                        nameOfCourses.setText(stringNameOfCourses);
+                        nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                        nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
+                        coursesPanel.add(nameOfCourses);
+                    }
+                }
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
