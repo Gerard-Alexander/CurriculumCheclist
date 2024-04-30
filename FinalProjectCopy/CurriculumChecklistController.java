@@ -143,7 +143,7 @@ public class CurriculumChecklistController {
         Files.write(Paths.get(fileName), content.getBytes());
     }
 
-    public void sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
+public ArrayList<Course> sortCourses(ArrayList<Course> courses, String sortBy, boolean ascending) {
         Comparator<Course> comparator;
 
         switch (sortBy.toLowerCase()) {
@@ -162,11 +162,20 @@ public class CurriculumChecklistController {
             default:
                 throw new IllegalArgumentException("Invalid sort field: " + sortBy);
         }
-
+        //Sorts in descending order if .reversed() is called
         if (!ascending) {
             comparator = comparator.reversed();
         }
 
-        courses.sort(comparator);
-    }//end of SortCourses method
+        courses.sort(comparator);//sorts the courses based on the comparator
+
+        //prints the sorted courses
+        System.out.println("Sorted courses:");
+        for (Course course : courses) {
+            System.out.println(course);
+
+        }//end of SortCourses method
+        return courses;
+
+    }//end of sortCourses method
 }
