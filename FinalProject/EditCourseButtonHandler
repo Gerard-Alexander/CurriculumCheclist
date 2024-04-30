@@ -1,3 +1,8 @@
+/**
+ * This class is a method that edits and updates the unit and title  
+ * @author Jeoffrie Ross Burlas
+ */
+
 private class EditCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
