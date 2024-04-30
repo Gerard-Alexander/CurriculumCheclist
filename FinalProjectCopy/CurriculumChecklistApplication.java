@@ -137,7 +137,7 @@ public class CurriculumChecklistApplication {
                     throw new RuntimeException(ex);
                 }
                 try {
-                    controller.saveCourseListToFile(courses, "curriculum_checklist.txt");
+                    controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
                     // Notify the user of successful addition
                     JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
                     // Display the newly added course
@@ -185,7 +185,7 @@ public class CurriculumChecklistApplication {
 
                                                 // Save the updated course list to a file
                                                 try {
-                                                    controller.saveCourseListToFile(courses, "curriculum_checklist.txt"); // Pass false to prevent resetting the file
+                                                    controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt"); // Pass false to prevent resetting the file
                                                 } catch (IOException ex) {
                                                     JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                                                 }
@@ -273,7 +273,7 @@ public class CurriculumChecklistApplication {
 
                                                 // Save the updated course list to a file
                                                 try {
-                                                    controller.saveCourseListToFile(courses, "curriculum_checklist.txt"); // Pass false to prevent resetting the file
+                                                    controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt"); // Pass false to prevent resetting the file
                                                 } catch (IOException ex) {
                                                     JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                                                 }
