@@ -1,4 +1,4 @@
-import java.io.*;
+
 /**
  * This method is a printwriter method
  * @author Jeoffrie Ross Burlas
@@ -7,21 +7,28 @@ import java.io.*;
 public class StudentDataWriter {
 
     public static void main(String[] args) {
-        try (PrintWriter writer = new PrintWriter("student_records.txt")) {
+        Student[] students = {
+                new Student("IT 111", "Introduction to Computing", 2.0),
+                new Student("IT 111L", "Introduction to Computing (Lab)", 1.0),
+                new Student("IT 112", "Computer Programming 1", 2.0),
+                new Student("IT 112L", "Computer Programming 1 (Lab)", 1.0),
+                new Student("IT 113", "Discrete Mathematics", 3.0),
+                new Student("GART", "Art Appreciation", 3.0),
+                new Student("GSELF", "Understanding the Self", 3.0),
+                new Student("GHIST", "Readings in Philippine History", 3.0),
+                new Student("FIT HW", "Physical Activity Towards Health and Fitness (Health and Wellness)", 2.0),
+                new Student("CFE 101", "God’s Journey with His People", 3.0)
+        };
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter("student_records.txt"))) {
             writer.println("Year = First Year Term = First Semester");
             writer.println("Course No Descriptive title Units");
-            writer.println("IT 111 Introduction to Computing 2.0");
-            writer.println("IT 111L Introduction to Computing (Lab) 1.0");
-            writer.println("IT 112 Computer Programming 1 2.0");
-            writer.println("IT 112L Computer Programming 1 (Lab) 1.0");
-            writer.println("IT 113 Discrete Mathematics 3.0");
-            writer.println("GART Art Appreciation 3.0");
-            writer.println("GSELF Understanding the Self 3.0");
-            writer.println("GHIST Readings in Philippine History 3.0");
-            writer.println("FIT HW Physical Activity Towards Health and Fitness (Health and Wellness) 2.0");
-            writer.println("CFE 101 God’s Journey with His People 3.0");
 
-           
+            for (Student student : students) {
+                writer.println(student.getCourseNo() + " " + student.getDescriptiveTitle() + " " + student.getUnits());
+            }
+
+            System.out.println("Student records have been written to the file successfully.");
         } catch (IOException e) {
             System.out.println("An error occurred while writing student records to the file.");
             e.printStackTrace();
