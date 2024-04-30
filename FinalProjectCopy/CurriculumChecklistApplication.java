@@ -162,7 +162,60 @@ public class CurriculumChecklistApplication {
 
     private class EnterGradeButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            // TO-DO
+            SwingUtilities.invokeLater(() -> {
+                String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit the grade:");
+                if (courseNumber != null && !courseNumber.isEmpty()) {
+                    try {
+                        ArrayList<Course> courses = controller.getCourses();
+                        if (courses != null) {
+                            for (Course course : courses) {
+                                if (course.getCourseNumber().equals(courseNumber)) {
+                                    String newGrade = JOptionPane.showInputDialog(mainFrame, "Enter the new grade (must be a number between 0 and 100):");
+                                    if (newGrade != null && !newGrade.isEmpty()) {
+                                        try {
+                                            int grade = Integer.parseInt(newGrade);
+                                            if (grade >= 0 && grade <= 100) {
+                                                course.setGrade(grade);
+
+                                                // Notify user of successful edit
+                                                JOptionPane.showMessageDialog(mainFrame, "Grade updated successfully.", "Edit Grade", JOptionPane.INFORMATION_MESSAGE);
+
+                                                // Update the grade directly on the GUI
+                                                updateGradeOnGUI(course);
+
+                                                return; // Exit the method after successfully updating grade
+                                            } else {
+                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number between 0 and 100.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
+                                            }
+                                        } catch (NumberFormatException ex) {
+                                            // Handle number format exception
+                                            JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number between 0 and 100.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            });
+        }
+
+        private void updateGradeOnGUI(Course editedCourse) {
+            // Find and update the edited course in the courses panel
+            Component[] components = coursesPanel.getComponents();
+            for (Component component : components) {
+                if (component instanceof JLabel) {
+                    JLabel label = (JLabel) component;
+                    String text = label.getText();
+                    if (text.contains(editedCourse.getCourseNumber())) {
+                        String updatedCourseDetails = String.format("%-20s%-90s%s%15s%n", editedCourse.getCourseNumber(), editedCourse.getDescriptiveTitle(), editedCourse.getUnits(), editedCourse.getGrade());
+                        label.setText(updatedCourseDetails);
+                        break; // Exit loop after updating the grade
+                    }
+                }
+            }
         }
     }
 
