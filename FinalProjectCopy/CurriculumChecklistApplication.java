@@ -262,7 +262,7 @@ public class CurriculumChecklistApplication {
                                     if (newGrade!= null &&!newGrade.isEmpty()) {
                                         try {
                                             int grade = Integer.parseInt(newGrade);
-                                            if (grade >= 0 && grade <= 100) {
+                                            if (grade >= 65 && grade <= 99) {
                                                 course.setGrade(grade);
 
                                                 // Notify user of successful edit
@@ -286,7 +286,7 @@ public class CurriculumChecklistApplication {
 
                                                 return; // Exit the method after successfully updating grade
                                             } else {
-                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number between 0 and 100.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
+                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number between 66 and 99.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
                                             }
                                         } catch (NumberFormatException ex) {
                                             // Handle number format exception
