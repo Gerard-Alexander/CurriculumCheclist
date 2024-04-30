@@ -62,6 +62,7 @@ public class CurriculumChecklistApplication {
      */
     private class ShowCoursesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            showGWAIsClicked = false;
             showCoursesIsClicked = true;
             showGradesIsClicked = false;
             resetYearAndTerm();
@@ -84,6 +85,7 @@ public class CurriculumChecklistApplication {
      */
     private class AddCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            showGWAIsClicked = false;
             SwingUtilities.invokeLater(() -> {
                 String yearStr = null, termStr = null, courseNumber = null, descriptiveTitle = null, unitsStr = null;
                 byte year = 0, term = 0;
@@ -117,7 +119,7 @@ public class CurriculumChecklistApplication {
                         JOptionPane.showMessageDialog(mainFrame, "Year, term and units must be a number and within the valid range.", "Error", JOptionPane.ERROR_MESSAGE);
                         if (year < 1 || year > 4) yearStr = null;
                         if (term < 1 || term > 3) termStr = null;
-                        if (unitsStr != null || unitsStr.isEmpty()) unitsStr = null;
+                        if (unitsStr != null) unitsStr = null;
                     } catch (IllegalArgumentException ex) {
                         JOptionPane.showMessageDialog(mainFrame, "Course number and descriptive title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                         if (courseNumber != null && courseNumber.isEmpty()) courseNumber = null;
@@ -151,6 +153,7 @@ public class CurriculumChecklistApplication {
 
     private class RemoveCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            showGWAIsClicked = false;
             // TO-DO
         }
     }
@@ -160,40 +163,50 @@ public class CurriculumChecklistApplication {
      */
     private class EditCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            showGWAIsClicked = false;
             SwingUtilities.invokeLater(() -> {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
-                if (courseNumber!= null &&!courseNumber.isEmpty()) {
+                if (courseNumber != null && !courseNumber.isEmpty()) {
                     try {
                         ArrayList<Course> courses = controller.getCourses();
-                        if (courses!= null) {
+                        if (courses != null) {
                             for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
-                                    String newDescriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the new descriptive title:");
-                                    if (newDescriptiveTitle!= null &&!newDescriptiveTitle.isEmpty()) {
-                                        String unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the new units (must be a number):");
-                                        if (unitsStr!= null &&!unitsStr.isEmpty()) {
-                                            try {
-                                                byte units = Byte.parseByte(unitsStr);
-                                                course.setDescriptiveTitle(newDescriptiveTitle);
-                                                course.setUnits(units);
-
-                                                // Notify user of successful edit
-                                                JOptionPane.showMessageDialog(mainFrame, "Course details updated successfully.", "Edit Course", JOptionPane.INFORMATION_MESSAGE);
-
-                                                // Update the course details directly on the GUI
-                                                updateCourseDetailsOnGUI(course);
-
-                                                // Save the updated course list to a file
-                                                try {
-                                                    controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt"); // Pass false to prevent resetting the file
-                                                } catch (IOException ex) {
-                                                    JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                    String newCourseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the new course number:");
+                                    if (newCourseNumber != null && !newCourseNumber.isEmpty()) {
+                                        String newDescriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the new descriptive title:");
+                                        if (newDescriptiveTitle != null && !newDescriptiveTitle.isEmpty()) {
+                                            boolean validUnits = false;
+                                            double newUnits = 0.0;
+                                            while (!validUnits) {
+                                                String newUnitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the new units:");
+                                                if (newUnitsStr != null && !newUnitsStr.isEmpty()) {
+                                                    try {
+                                                        newUnits = Double.parseDouble(newUnitsStr);
+                                                        validUnits = true;
+                                                    } catch (NumberFormatException ex) {
+                                                        JOptionPane.showMessageDialog(mainFrame, "Units must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                                                    }
                                                 }
-
-                                                return; // Exit the method after successfully updating course
-                                            } catch (NumberFormatException ex) {
-                                                // Handle number format exception
                                             }
+                                            course.setCourseNumber(newCourseNumber);
+                                            course.setDescriptiveTitle(newDescriptiveTitle);
+                                            course.setUnits(newUnits);
+
+                                            // Notify user of successful edit
+                                            JOptionPane.showMessageDialog(mainFrame, "Course details updated successfully.", "Edit Course", JOptionPane.INFORMATION_MESSAGE);
+
+                                            // Save the updated course list to a file
+                                            try {
+                                                controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
+                                            } catch (IOException ex) {
+                                                JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                            }
+
+                                            // Update the course details directly on the GUI
+                                            updateCourseDetailsOnGUI(course);
+                                            displayCourses();
+                                            return; // Exit the method after successfully updating course
                                         }
                                     }
                                 }
@@ -230,6 +243,7 @@ public class CurriculumChecklistApplication {
         public void actionPerformed(ActionEvent e) {
             showGradesIsClicked = true;
             showCoursesIsClicked = false;
+            showGWAIsClicked = false;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
@@ -252,47 +266,50 @@ public class CurriculumChecklistApplication {
         public void actionPerformed(ActionEvent e) {
             SwingUtilities.invokeLater(() -> {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit the grade:");
-                if (courseNumber!= null &&!courseNumber.isEmpty()) {
+                if (courseNumber != null && !courseNumber.isEmpty()) {
                     try {
                         ArrayList<Course> courses = controller.getCourses();
-                        if (courses!= null) {
+                        if (courses != null) {
                             for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
-                                    String newGrade = JOptionPane.showInputDialog(mainFrame, "Enter the new grade (must be a number from 65 to 99):");
-                                    if (newGrade!= null &&!newGrade.isEmpty()) {
-                                        try {
-                                            int grade = Integer.parseInt(newGrade);
-                                            if (grade >= 65 && grade <= 99) {
-                                                course.setGrade(grade);
-
-                                                // Notify user of successful edit
-                                                JOptionPane.showMessageDialog(mainFrame, "Grade updated successfully.", "Edit Grade", JOptionPane.INFORMATION_MESSAGE);
-
-                                                // Update the grade directly on the GUI
-                                                updateGradeOnGUI(course);
-
-                                                // Save the updated course list to a file
-                                                try {
-                                                    controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt"); // Pass false to prevent resetting the file
-                                                } catch (IOException ex) {
-                                                    JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                    boolean validGrade = false;
+                                    int grade = 0;
+                                    while (!validGrade) {
+                                        String newGrade = JOptionPane.showInputDialog(mainFrame, "Enter the new grade (must be a number from 65 to 99):");
+                                        if (newGrade != null && !newGrade.isEmpty()) {
+                                            try {
+                                                grade = Integer.parseInt(newGrade);
+                                                if (grade >= 65 && grade <= 99) {
+                                                    validGrade = true;
+                                                } else {
+                                                    JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number from 65 to 99.", "Error", JOptionPane.ERROR_MESSAGE);
                                                 }
-
-                                                if (showGWAIsClicked) {
-                                                    coursesPanel.remove(lineLabel);
-                                                    coursesPanel.remove(gWALabel);
-                                                    displayGWA();
-                                                }
-
-                                                return; // Exit the method after successfully updating grade
-                                            } else {
-                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number from 65 to 99.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
+                                            } catch (NumberFormatException ex) {
+                                                JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number from 65 to 99.", "Error", JOptionPane.ERROR_MESSAGE);
                                             }
-                                        } catch (NumberFormatException ex) {
-                                            // Handle number format exception
-                                            JOptionPane.showMessageDialog(mainFrame, "Invalid grade. Please enter a number from 65 to 99.", "Edit Grade", JOptionPane.ERROR_MESSAGE);
                                         }
                                     }
+                                    course.setGrade(grade);
+
+                                    // Notify user of successful edit
+                                    JOptionPane.showMessageDialog(mainFrame, "Grade updated successfully.", "Edit Grade", JOptionPane.INFORMATION_MESSAGE);
+
+                                    // Update the grade directly on the GUI
+                                    updateGradeOnGUI(course);
+
+                                    // Save the updated course list to a file
+                                    try {
+                                        controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
+                                    } catch (IOException ex) {
+                                        JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                                    }
+
+                                    if (showGWAIsClicked) {
+                                        coursesPanel.remove(lineLabel);
+                                        coursesPanel.remove(gWALabel);
+                                        displayGWA();
+                                    }
+                                    return; // Exit the method after successfully updating grade
                                 }
                             }
                         }
@@ -416,6 +433,7 @@ public class CurriculumChecklistApplication {
      */
     private class PreviousAndNextButtonsHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            showGWAIsClicked = false;
             if (!showCoursesIsClicked && !showGradesIsClicked) {
                 // DOES NOTHING
             } else {
