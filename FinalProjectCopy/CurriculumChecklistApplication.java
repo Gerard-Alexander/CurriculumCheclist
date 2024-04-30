@@ -20,7 +20,7 @@ public class CurriculumChecklistApplication {
     private JButton enterGradeButton, sortButton, showGWAButton;
     private JButton previousButton, nextButton;
 
-    private JLabel yearAndTermLabel, ifShifterLabel, courseLabel;
+    private JLabel yearAndTermLabel, ifShifterLabel;
 
     private ShowCoursesButtonHandler showCoursesButtonHandler;
     private ShowGradesButtonHandler showGradesButtonHandler;
@@ -37,6 +37,7 @@ public class CurriculumChecklistApplication {
     private byte currentTerm = 1;
 
     private boolean showGradesIsClicked = false;
+    private boolean showCoursesIsClicked = false;
 
     public CurriculumChecklistApplication() {
         setMainFrame();
@@ -47,6 +48,7 @@ public class CurriculumChecklistApplication {
 
     private class ShowCoursesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            showCoursesIsClicked = true;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
@@ -58,33 +60,7 @@ public class CurriculumChecklistApplication {
             coursesPanel.removeAll();
             coursesPanel.repaint();
             coursesPanel.revalidate();
-            JLabel labelOfCourse = new JLabel();
-            JLabel lines = new JLabel();
-            try {
-                ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
-                String stringLabelOfCourse = String.format("%-20s%-60s%20s%n","Course Number","Descriptive Title","Units");
-                String stringLines = String.format("%-20s%-60s%20s%n","___________","____________________________","_________");
-                labelOfCourse.setText(stringLabelOfCourse);
-                lines.setText(stringLines);
-                labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                lines.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                labelOfCourse.setHorizontalAlignment(JLabel.LEFT);
-                lines.setHorizontalAlignment(JLabel.LEFT);
-                coursesPanel.add(labelOfCourse);
-                coursesPanel.add(lines);
-                for (int i =0; i< courses.size(); i++){
-                    if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
-                        JLabel nameOfCourses = new JLabel();
-                        String stringNameOfCourses = String.format("%-20s%-60s%20s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits());
-                        nameOfCourses.setText(stringNameOfCourses);
-                        nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                        nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
-                        coursesPanel.add(nameOfCourses);
-                    }
-                }
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+            displayCourses();
         }
     }
 
@@ -147,7 +123,7 @@ public class CurriculumChecklistApplication {
 
     private class ShowGradesButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-//          showGradesIsClicked = true;
+            showGradesIsClicked = true;
             resetYearAndTerm();
             setYearAndTermLabel(currentYear, currentTerm);
             actionButtonsPanel.removeAll();
@@ -159,33 +135,7 @@ public class CurriculumChecklistApplication {
             coursesPanel.removeAll();
             coursesPanel.repaint();
             coursesPanel.revalidate();
-            JLabel labelOfCourse = new JLabel();
-            JLabel lines = new JLabel();
-            try {
-                ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
-                String stringLabelOfCourse = String.format("%-20s%-60s%s%15s%n","Course Number","Descriptive Title","Units","Grade");
-                String stringLines = String.format("%-20s%-60s%s%15s%n","___________","____________________________","_________","_________");
-                labelOfCourse.setText(stringLabelOfCourse);
-                lines.setText(stringLines);
-                labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                lines.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                labelOfCourse.setHorizontalAlignment(JLabel.LEFT);
-                lines.setHorizontalAlignment(JLabel.LEFT);
-                coursesPanel.add(labelOfCourse);
-                coursesPanel.add(lines);
-                for (int i =0; i< courses.size(); i++){
-                    if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
-                        JLabel nameOfCourses = new JLabel();
-                        String stringNameOfCourses = String.format("%-20s%-60s%s%15s%n",courses.get(i).getCourseNumber(), courses.get(i).getDescriptiveTitle(),courses.get(i).getUnits(), courses.get(i).getGrade());
-                        nameOfCourses.setText(stringNameOfCourses);
-                        nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                        nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
-                        coursesPanel.add(nameOfCourses);
-                    }
-                }
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+            displayCoursesWithGrades();
         }
     }
 
@@ -214,36 +164,117 @@ public class CurriculumChecklistApplication {
 
     private class PreviousAndNextButtonsHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource().equals(previousButton)) {
-                if (currentYear > 1 || currentTerm > 1) {
-                    currentTerm--;
-                    if (currentTerm < 1) {
-                        currentTerm = 3;
-                        currentYear--;
+            if (!showCoursesIsClicked && !showGradesIsClicked) {
+
+            } else {
+                coursesPanel.removeAll();
+                coursesPanel.revalidate();
+                coursesPanel.repaint();
+                if (e.getSource().equals(previousButton)) {
+                    if (currentYear > 1 || currentTerm > 1) {
+                        currentTerm--;
+                        if (currentTerm < 1) {
+                            currentTerm = 3;
+                            currentYear--;
+                        }
+                        setYearAndTermLabel(currentYear, currentTerm);
+                        displayCoursesInfo();
                     }
-                    setYearAndTermLabel(currentYear, currentTerm);
-                }
-            } else if (e.getSource().equals(nextButton)) {
-                if (currentYear < 4 || (currentYear == 4 && currentTerm < 2) || currentTerm < 3) {
-                    currentTerm++;
-                    if (currentYear < 4 && currentTerm > 3) {
-                        currentTerm = 1;
-                        currentYear++;
-                    } else if (currentYear == 4 && currentTerm > 2) {
-                        currentTerm = 2;
+                } else if (e.getSource().equals(nextButton)) {
+                    if (currentYear < 4 || (currentYear == 4 && currentTerm < 2) || currentTerm < 3) {
+                        currentTerm++;
+                        if (currentYear < 4 && currentTerm > 3) {
+                            currentTerm = 1;
+                            currentYear++;
+                        } else if (currentYear == 4 && currentTerm > 2) {
+                            currentTerm = 2;
+                        }
+                        setYearAndTermLabel(currentYear, currentTerm);
+                        displayCoursesInfo();
                     }
-                    setYearAndTermLabel(currentYear, currentTerm);
                 }
+            }
+        }
+
+        public void displayCoursesInfo() {
+            if (!showGradesIsClicked) {
+                displayCourses();
+            } else {
+                displayCoursesWithGrades();
             }
         }
     }
 
-    private void populateCourseArrayList() {
-        // TO-DO
+    private void displayCourses() {
+        JLabel labelOfCourse = new JLabel();
+        JLabel lines = new JLabel();
+        try {
+            ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
+            String stringLabelOfCourse = String.format("%-20s%-90s%20s%n","Course Number","Descriptive Title","Units");
+            String stringLines = String.format("%-20s%-90s%20s%n","___________","____________________________","_________");
+            labelOfCourse.setText(stringLabelOfCourse);
+            lines.setText(stringLines);
+            labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            lines.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            labelOfCourse.setHorizontalAlignment(JLabel.LEFT);
+            lines.setHorizontalAlignment(JLabel.LEFT);
+            coursesPanel.add(labelOfCourse);
+            coursesPanel.add(lines);
+            for (int i =0; i< courses.size(); i++){
+                if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
+                    JLabel nameOfCourses = new JLabel();
+                    String title = truncateString(courses.get(i).getDescriptiveTitle());
+                    String courseDetails = String.format("%-20s%-90s%20s%n",courses.get(i).getCourseNumber(),
+                            title,courses.get(i).getUnits());
+                    nameOfCourses.setText(courseDetails);
+                    nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
+                    coursesPanel.add(nameOfCourses);
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    private void addGradesToCoursesInArrayList() {
-        // TO-DO
+    private void displayCoursesWithGrades() {
+        JLabel labelOfCourse = new JLabel();
+        JLabel lines = new JLabel();
+        try {
+            ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
+            String stringLabelOfCourse = String.format("%-20s%-90s%s%15s%n","Course Number","Descriptive Title","Units","Grade");
+            String stringLines = String.format("%-20s%-90s%s%15s%n","___________","____________________________","_________","_________");
+            labelOfCourse.setText(stringLabelOfCourse);
+            lines.setText(stringLines);
+            labelOfCourse.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            lines.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            labelOfCourse.setHorizontalAlignment(JLabel.LEFT);
+            lines.setHorizontalAlignment(JLabel.LEFT);
+            coursesPanel.add(labelOfCourse);
+            coursesPanel.add(lines);
+            for (int i =0; i< courses.size(); i++){
+                if (currentTerm == courses.get(i).getTerm() && currentYear == courses.get(i).getYearLevel()) {
+                    JLabel nameOfCourses = new JLabel();
+                    String title = truncateString(courses.get(i).getDescriptiveTitle());
+                    String stringNameOfCourses = String.format("%-20s%-90s%s%15s%n",courses.get(i).getCourseNumber(),
+                            title,courses.get(i).getUnits(), courses.get(i).getGrade());
+                    nameOfCourses.setText(stringNameOfCourses);
+                    nameOfCourses.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    nameOfCourses.setHorizontalAlignment(JLabel.LEFT);
+                    coursesPanel.add(nameOfCourses);
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public String truncateString(String str) {
+        if (str.length() > 80) {
+            return str.substring(0, 77) + "...";
+        } else {
+            return str;
+        }
     }
 
     private String getYearText(byte y) {
@@ -279,9 +310,9 @@ public class CurriculumChecklistApplication {
     private void setMainFrame() {
         mainFrame = new JFrame();
         mainFrame.setLayout(new BorderLayout(0, 0));
-        mainFrame.setSize(1000, 670);
+        mainFrame.setSize(1200, 670);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mainFrame.setResizable(true);
+        mainFrame.setResizable(false);
     }
 
     private void setSidePanel() {
@@ -341,15 +372,15 @@ public class CurriculumChecklistApplication {
 
     private void setMainPanel() {
         mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(800, 700));
+        mainPanel.setPreferredSize(new Dimension(1000, 700));
         mainPanel.setBackground(Color.ORANGE);
         mainPanel.setLayout(new BorderLayout());
         mainPanel.setBorder(null);
 
         headerPanel = new JPanel();
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.X_AXIS));
-        headerPanel.setPreferredSize(new Dimension(800, 50));
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+        headerPanel.setPreferredSize(new Dimension(1000, 50));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
         headerPanel.setBackground(new Color(242, 242, 247));
 
         yearAndTermLabel = new JLabel("");
@@ -358,17 +389,18 @@ public class CurriculumChecklistApplication {
         headerPanel.add(yearAndTermLabel);
 
         coursesPanel = new JPanel(new GridLayout(20, 1));
-        coursesPanel.setPreferredSize(new Dimension(800, 580));
+        coursesPanel.setPreferredSize(new Dimension(1000, 580));
         coursesPanel.setBackground(Color.WHITE);
+        coursesPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 
         bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setPreferredSize(new Dimension(800, 70));
+        bottomPanel.setPreferredSize(new Dimension(1000, 70));
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
         bottomPanel.setBackground(new Color(242, 242, 247));
 
         bottomButtonsPanel = new JPanel(new BorderLayout());
         bottomButtonsPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-        bottomButtonsPanel.setPreferredSize(new Dimension(800, 40));
+        bottomButtonsPanel.setPreferredSize(new Dimension(1000, 40));
         bottomButtonsPanel.setBackground(new Color(242, 242, 247));
 
         previousNextButtonsPanel = new JPanel();
