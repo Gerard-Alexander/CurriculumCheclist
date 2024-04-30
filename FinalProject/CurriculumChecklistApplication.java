@@ -16,8 +16,9 @@ public class CurriculumChecklistApplication {
     private JFrame mainFrame;
 
     private JPanel sidePanel, sideUpperButtonsPanel, shifterPanel, sideLowerButtonsPanel;
-    private JPanel mainPanel, headerPanel, coursesPanel, bottomPanel;
+    private JPanel mainPanel, headerPanel, bottomPanel;
     private JPanel bottomButtonsPanel, actionButtonsPanel, previousNextButtonsPanel;
+    JPanel coursesPanel;
 
     private JButton showCoursesButton, showGradesButton, quitButton;
     private JButton addCourseButton, removeCourseButton, editCourseButton;
