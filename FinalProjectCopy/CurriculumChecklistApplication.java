@@ -263,8 +263,51 @@ public class CurriculumChecklistApplication {
         }
     }
 
+     /**
+     * @author Lance Kenneth G. Cariaga
+     * This class handles the action when the Sort button is clicked.
+     * It allows the user to sort the courses based on different criteria.
+     */
     private class SortButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            // Options for sorting criteria
+            String[] options = {"Course Number", "Descriptive Title", "Grade", "Number of Units"};
+
+            // Show a dialog to let the user choose the sorting criteria
+            String sortBy = (String) JOptionPane.showInputDialog(mainFrame, "Choose sorting criteria:", "Sort", JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+            if (sortBy != null) {
+                // Options for sorting order
+                String[] orderOptions = {"Ascending", "Descending"};
+
+                // Show a dialog to let the user choose the sorting order
+                String order = (String) JOptionPane.showInputDialog(mainFrame, "Choose sorting order:", "Sort", JOptionPane.QUESTION_MESSAGE, null, orderOptions, orderOptions[0]);
+
+                if (order != null) {
+                    // Determines if the sorting order is ascending
+                    boolean ascending = order.equals("Ascending");
+
+                    try {
+                        // Sorts the courses based on the chosen criteria (by Course Number, Descriptive Tite, Grade, or Number of Units) 
+                        // and order (Ascending or Descending order)
+                        ArrayList<Course> sortedCourses = controller.sortCourses(controller.getCourses(), sortBy, ascending);
+
+                        // Clears the courses panel
+                        coursesPanel.removeAll();
+                        coursesPanel.revalidate();
+                        coursesPanel.repaint();
+
+                        // Displays the sorted courses
+                        if (showGradesIsClicked) {
+                            displayCoursesWithGrades(sortedCourses);
+                        } else {
+                            displayCourses();
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
         }
     }
 
