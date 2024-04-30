@@ -17,9 +17,9 @@ public class CurriculumChecklistController {
     }
 
     private void run() throws Exception {
-        int arraySize = countLines("curriculum_checklist.txt");
+        int arraySize = countLines("dynamic_curriculum_checklist.txt");
         Course[] course = new Course[arraySize];
-        populateCourseArray("curriculum_checklist.txt", course);
+        populateCourseArray("dynamic_curriculum_checklist.txt", course);
         ArrayList<Course> courses= convertToArrayList(course);
         showCourses(courses);
     }
@@ -49,9 +49,9 @@ public class CurriculumChecklistController {
      * @author Gerard Alexander Bernados
      */
     public ArrayList<Course> getCourses() throws Exception {
-        int arraySize = countLines("curriculum_checklist.txt");
+        int arraySize = countLines("dynamic_curriculum_checklist.txt");
         Course[] course = new Course[arraySize];
-        populateCourseArray("curriculum_checklist.txt", course);
+        populateCourseArray("dynamic_curriculum_checklist.txt", course);
         ArrayList<Course> courses= convertToArrayList(course);
         return courses;
     }
