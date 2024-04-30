@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 
+/**
+ * This class provides a graphical user interface for users to interact with the application.
+ *
+ * @author Mike Fajardo
+ */
 public class CurriculumChecklistApplication {
     CurriculumChecklistController controller = new CurriculumChecklistController();
     private JFrame mainFrame;
@@ -399,21 +404,19 @@ public class CurriculumChecklistApplication {
         bottomPanel.setBackground(new Color(242, 242, 247));
 
         bottomButtonsPanel = new JPanel(new BorderLayout());
-        bottomButtonsPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+        bottomButtonsPanel.setBorder(BorderFactory.createEmptyBorder(5, 15, 0, 15));
         bottomButtonsPanel.setPreferredSize(new Dimension(1000, 40));
         bottomButtonsPanel.setBackground(new Color(242, 242, 247));
 
-        previousNextButtonsPanel = new JPanel();
-        previousNextButtonsPanel.setPreferredSize(new Dimension(70, 30));
+        previousNextButtonsPanel = new JPanel(new GridLayout(1, 2));
+        previousNextButtonsPanel.setPreferredSize(new Dimension(100, 30));
         previousNextButtonsPanel.setBackground(new Color(242, 242, 247));
 
         previousAndNextButtonsHandler = new PreviousAndNextButtonsHandler();
 
-        previousButton = new JButton("<<");
-        previousButton.setPreferredSize(new Dimension(30, 30));
+        previousButton = new JButton("<");
         previousButton.addActionListener(previousAndNextButtonsHandler);
-        nextButton = new JButton(">>");
-        nextButton.setPreferredSize(new Dimension(30, 30));
+        nextButton = new JButton(">");
         nextButton.addActionListener(previousAndNextButtonsHandler);
 
         previousNextButtonsPanel.add(previousButton);
