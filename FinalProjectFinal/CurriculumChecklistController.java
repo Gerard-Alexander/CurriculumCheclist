@@ -45,6 +45,8 @@ public class CurriculumChecklistController {
     }
 
     /**
+     * This method will return the ArrayList that will be read from the specific data file.
+     * 
      * @author Gerard Alexander Bernados
      */
     public ArrayList<Course> getCourses() throws Exception {
@@ -56,7 +58,11 @@ public class CurriculumChecklistController {
     }
 
     /**
-     * @author Gerard Alexander Bernados
+     * Count the lines of the data file.
+     * @param filename
+     * @return
+     * @throws FileNotFoundException
+     * @throws Exception
      */
     public int countLines(String filename) throws FileNotFoundException, Exception{
         int count = 0;
@@ -70,6 +76,8 @@ public class CurriculumChecklistController {
     } // end of countLines method
 
     /**
+     * Populate the array with the data from the data file.
+     * 
      * @author Gerard Alexander Cristal Bernados
      */
     public void populateCourseArray(String filename, Course[] curriculaArray) throws FileNotFoundException, Exception{
@@ -87,6 +95,8 @@ public class CurriculumChecklistController {
     } // end of populateCourseArray method
 
     /**
+     * Converts the passed array to an ArrayList.
+     * 
      * @author Gerard Alexander Cristal Bernados
      */
     private ArrayList<Course> convertToArrayList(Course[] course){
@@ -97,6 +107,14 @@ public class CurriculumChecklistController {
         return courses;
     }
 
+    /**
+     * Allows the data file to be manipulated and updated when the user is controlling the application.
+     * 
+     * @author Gerard Alexander Cristal Bernados
+     * @param courseList
+     * @param fileName
+     * @throws IOException
+     */
     public void saveCourseListToFile(List<Course> courseList, String fileName) throws IOException {
         List<String> courseStrings = courseList.stream()
                 .map(course -> String.format("%d, %d, %s, %s, %.1f, %d, %s, %s, %b, %b",
@@ -117,6 +135,7 @@ public class CurriculumChecklistController {
 
     /**
      * This method sorts the courses based on the given field and order.
+     * 
      * @author Lance Kenneth G. Cariaga
      * @param courses   the list of courses to be sorted
      * @param sortBy    the field to sort by
