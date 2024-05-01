@@ -91,41 +91,31 @@ public class CurriculumChecklistApplication {
                 byte year = 0, term = 0;
                 double units = 0.0;
 
-                while (yearStr == null || termStr == null || courseNumber == null || descriptiveTitle == null || unitsStr == null) {
-                    try {
-                        if (yearStr == null) {
-                            yearStr = JOptionPane.showInputDialog(mainFrame, "Enter the year (1-4 only):");
-                            year = Byte.parseByte(yearStr);
-                            if (year < 1 || year > 4) throw new NumberFormatException();
-                        }
-                        if (termStr == null) {
-                            termStr = JOptionPane.showInputDialog(mainFrame, "Enter the term (1 = 1st sem, 2 = 2nd sem, 3 = short term):");
-                            term = Byte.parseByte(termStr);
-                            if (term < 1 || term > 3) throw new NumberFormatException();
-                        }
-                        if (courseNumber == null) {
-                            courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number:");
-                            if (courseNumber.isEmpty()) throw new IllegalArgumentException();
-                        }
-                        if (descriptiveTitle == null) {
-                            descriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the descriptive title:");
-                            if (descriptiveTitle.isEmpty()) throw new IllegalArgumentException();
-                        }
-                        if (unitsStr == null) {
-                            unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the units (must be a number):");
-                            units = Double.parseDouble(unitsStr);
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(mainFrame, "Year, term and units must be a number and within the valid range.", "Error", JOptionPane.ERROR_MESSAGE);
-                        if (year < 1 || year > 4) yearStr = null;
-                        if (term < 1 || term > 3) termStr = null;
-                        if (unitsStr != null) unitsStr = null;
-                    } catch (IllegalArgumentException ex) {
-                        JOptionPane.showMessageDialog(mainFrame, "Course number and descriptive title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-                        if (courseNumber != null && courseNumber.isEmpty()) courseNumber = null;
-                        if (descriptiveTitle != null && descriptiveTitle.isEmpty()) descriptiveTitle = null;
-                    }
+                try {
+                    yearStr = JOptionPane.showInputDialog(mainFrame, "Enter the year (1-4 only):");
+                    if (yearStr == null) return; // User clicked cancel
+                    year = Byte.parseByte(yearStr);
+                    if (year < 1 || year > 4) throw new NumberFormatException();
+
+                    termStr = JOptionPane.showInputDialog(mainFrame, "Enter the term (1 = 1st sem, 2 = 2nd sem, 3 = short term):");
+                    if (termStr == null) return; // User clicked cancel
+                    term = Byte.parseByte(termStr);
+                    if (term < 1 || term > 3) throw new NumberFormatException();
+
+                    courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number:");
+                    if (courseNumber == null || courseNumber.isEmpty()) return; // User clicked cancel or entered nothing
+
+                    descriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the descriptive title:");
+                    if (descriptiveTitle == null || descriptiveTitle.isEmpty()) return; // User clicked cancel or entered nothing
+
+                    unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the units (must be a number):");
+                    if (unitsStr == null) return; // User clicked cancel
+                    units = Double.parseDouble(unitsStr);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(mainFrame, "Year, term and units must be a number and within the valid range.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Exit the method if there's an error
                 }
+
                 ArrayList<FinalProject.Course> courses = null;
 
                 try {
@@ -135,16 +125,12 @@ public class CurriculumChecklistApplication {
                     courses = controller.getCourses();
                     courses.add(course);
                     // Save the updated course list to a file
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-                try {
                     controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
                     // Notify the user of successful addition
                     JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
                     // Display the newly added course
                     displayCourses();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
