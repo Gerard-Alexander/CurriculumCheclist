@@ -1,4 +1,4 @@
-package FinalProject;
+package samcis.slu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +41,7 @@ public class CurriculumChecklistApplication {
     private boolean showCoursesIsClicked = false;
     private boolean showGWAIsClicked = false;
 
-    FinalProject.CurriculumChecklistController controller = new FinalProject.CurriculumChecklistController();
+    CurriculumChecklistController controller = new CurriculumChecklistController();
 
     /**
      * Constructor for the CurriculumChecklistApplication class.
@@ -58,6 +58,7 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * this method
      * @author Gerard Bernados
      */
     private class ShowCoursesButtonHandler implements ActionListener {
@@ -83,7 +84,7 @@ public class CurriculumChecklistApplication {
     /**
      * @author Ravone Ebeng
      */
-  private class AddCourseButtonHandler implements ActionListener {
+    private class AddCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             showGWAIsClicked = false;
             SwingUtilities.invokeLater(() -> {
@@ -91,69 +92,38 @@ public class CurriculumChecklistApplication {
                 byte year = 0, term = 0;
                 double units = 0.0;
 
-                while (yearStr == null) {
+                try {
                     yearStr = JOptionPane.showInputDialog(mainFrame, "Enter the year (1-4 only):");
                     if (yearStr == null) return; // User clicked cancel
-                    try {
-                        year = Byte.parseByte(yearStr);
-                        if (year < 1 || year > 4) throw new NumberFormatException();
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(mainFrame, "Year must be a number between 1 and 4.", "Error", JOptionPane.ERROR_MESSAGE);
-                        yearStr = null; // Reset the input
-                    }
-                }
+                    year = Byte.parseByte(yearStr);
+                    if (year < 1 || year > 4) throw new NumberFormatException();
 
-                while (termStr == null) {
                     termStr = JOptionPane.showInputDialog(mainFrame, "Enter the term (1 = 1st sem, 2 = 2nd sem, 3 = short term):");
                     if (termStr == null) return; // User clicked cancel
-                    try {
-                        term = Byte.parseByte(termStr);
-                        if (term < 1 || term > 3) throw new NumberFormatException();
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(mainFrame, "Term must be a number between 1 and 3.", "Error", JOptionPane.ERROR_MESSAGE);
-                        termStr = null; // Reset the input
-                    }
-                }
+                    term = Byte.parseByte(termStr);
+                    if (term < 1 || term > 3) throw new NumberFormatException();
 
-                while (courseNumber == null || courseNumber.isEmpty()) {
                     courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number:");
-                    if (courseNumber == null) return; // User clicked cancel
-                    if (courseNumber.isEmpty()) {
-                        JOptionPane.showMessageDialog(mainFrame, "Course number cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                    if (courseNumber == null || courseNumber.isEmpty()) return; // User clicked cancel or entered nothing
 
-                while (descriptiveTitle == null || descriptiveTitle.isEmpty()) {
                     descriptiveTitle = JOptionPane.showInputDialog(mainFrame, "Enter the descriptive title:");
-                    if (descriptiveTitle == null) return; // User clicked cancel
-                    if (descriptiveTitle.isEmpty()) {
-                        JOptionPane.showMessageDialog(mainFrame, "Descriptive title cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                    if (descriptiveTitle == null || descriptiveTitle.isEmpty()) return; // User clicked cancel or entered nothing
 
-                while (unitsStr == null) {
                     unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the units (must be a number):");
                     if (unitsStr == null) return; // User clicked cancel
-                    try {
-                        units = Double.parseDouble(unitsStr);
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(mainFrame, "Units must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
-                        unitsStr = null; // Reset the input
-                    }
+                    units = Double.parseDouble(unitsStr);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(mainFrame, "Year, term and units must be a number and within the valid range.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return; // Exit the method if there's an error
                 }
 
-                ArrayList<samcis.slu.Course> courses = null;
+                ArrayList<Course> courses = null;
 
                 try {
                     // Create a new Course object
-                    samcis.slu.Course course = new samcis.slu.Course(year, term, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
+                    Course course = new Course(year, term, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
                     // Add the course to the list of courses
-                    try {
-                        courses = controller.getCourses();
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(mainFrame, "Error getting courses: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
+                    courses = controller.getCourses();
                     courses.add(course);
                     // Save the updated course list to a file
                     controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
@@ -161,20 +131,19 @@ public class CurriculumChecklistApplication {
                     JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
                     // Display the newly added course
                     displayCourses();
-                } catch (IOException ex) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             });
         }
     }
 
-
     private class RemoveCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String courseToRemove = JOptionPane.showInputDialog(mainFrame, "Enter the course number to remove:");
 
             if (courseToRemove != null && !courseToRemove.isEmpty()) {
-                ArrayList<FinalProject.Course> courses = null;
+                ArrayList<Course> courses = null;
                 try {
                     courses = controller.getCourses();
                 } catch (Exception ex) {
@@ -182,7 +151,7 @@ public class CurriculumChecklistApplication {
                 }
                 boolean courseFound = false;
 
-                for (FinalProject.Course course : courses) {
+                for (Course course : courses) {
                     if (course.getCourseNumber().equals(courseToRemove)) {
                         courses.remove(course);
                         courseFound = true;
@@ -214,9 +183,9 @@ public class CurriculumChecklistApplication {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit:");
                 if (courseNumber != null && !courseNumber.isEmpty()) {
                     try {
-                        ArrayList<FinalProject.Course> courses = controller.getCourses();
+                        ArrayList<Course> courses = controller.getCourses();
                         if (courses != null) {
-                            for (FinalProject.Course course : courses) {
+                            for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
                                     String newCourseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the new course number:");
                                     if (newCourseNumber != null && !newCourseNumber.isEmpty()) {
@@ -265,7 +234,7 @@ public class CurriculumChecklistApplication {
             });
         }
 
-        private void updateCourseDetailsOnGUI(FinalProject.Course editedCourse) {
+        private void updateCourseDetailsOnGUI(Course editedCourse) {
             // Find and update the edited course in the courses panel
             Component[] components = coursesPanel.getComponents();
             for (Component component : components) {
@@ -314,9 +283,9 @@ public class CurriculumChecklistApplication {
                 String courseNumber = JOptionPane.showInputDialog(mainFrame, "Enter the course number to edit the grade:");
                 if (courseNumber != null && !courseNumber.isEmpty()) {
                     try {
-                        ArrayList<FinalProject.Course> courses = controller.getCourses();
+                        ArrayList<Course> courses = controller.getCourses();
                         if (courses != null) {
-                            for (FinalProject.Course course : courses) {
+                            for (Course course : courses) {
                                 if (course.getCourseNumber().equals(courseNumber)) {
                                     boolean validGrade = false;
                                     int grade = 0;
@@ -366,7 +335,7 @@ public class CurriculumChecklistApplication {
             });
         }
 
-        private void updateGradeOnGUI(FinalProject.Course editedCourse) {
+        private void updateGradeOnGUI(Course editedCourse) {
             // Find and update the edited course in the courses panel
             Component[] components = coursesPanel.getComponents();
             for (Component component : components) {
@@ -408,7 +377,7 @@ public class CurriculumChecklistApplication {
                     try {
                         // Sorts the courses based on the chosen criteria (by Course Number, Descriptive Tite, Grade, or Number of Units)
                         // and order (Ascending or Descending order)
-                        ArrayList<FinalProject.Course> sortedCourses = controller.sortCourses(controller.getCourses(), sortBy, ascending);
+                        ArrayList<Course> sortedCourses = controller.sortCourses(controller.getCourses(), sortBy, ascending);
 
                         // Clears the courses panel
                         coursesPanel.removeAll();
@@ -531,7 +500,7 @@ public class CurriculumChecklistApplication {
         JLabel labelOfCourse = new JLabel();
         JLabel lines = new JLabel();
         try {
-            ArrayList<FinalProject.Course> courses= new ArrayList<FinalProject.Course>(controller.getCourses());
+            ArrayList<Course> courses= new ArrayList<Course>(controller.getCourses());
             String stringLabelOfCourse = String.format("%-20s%-90s%20s%n","Course Number","Descriptive Title","Units");
             String stringLines = String.format("%-20s%-90s%20s%n","___________","____________________________","_________");
             labelOfCourse.setText(stringLabelOfCourse);
@@ -560,13 +529,15 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * this method displays the read courses with grades from a file to the GUI
+     *
      * @author Gerard Bernados
      */
-    private void displayCoursesWithGrades(ArrayList<FinalProject.Course> list) {
-        ArrayList<FinalProject.Course> courses;
+    private void displayCoursesWithGrades(ArrayList<Course> list) {
+        ArrayList<Course> courses;
         try {
             if (list == null) {
-                courses = new ArrayList<FinalProject.Course>(controller.getCourses());
+                courses = new ArrayList<Course>(controller.getCourses());
             } else {
                 courses = list;
             }
@@ -608,13 +579,13 @@ public class CurriculumChecklistApplication {
      */
     private void displayElectiveCourses() {
         JPanel electivePanel = new JPanel(new GridLayout(23, 1));
-        ArrayList<FinalProject.Course> courses = null;
+        ArrayList<Course> courses = null;
         try {
             courses = controller.getCourses();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        for (FinalProject.Course course : courses) {
+        for (Course course : courses) {
             if (course.isAnElective()) {
                 String units;
                 if (course.getUnits() == 2211) {
