@@ -214,6 +214,7 @@ public class CurriculumChecklistApplication {
             }
         }
     }
+    
     /**
      * This button handler allows the user to edit a Descriptive title and the units of the course.
      * The edited course will be automatically save in the data file.
@@ -488,6 +489,9 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * Handles the Quit button.
+     */
     private class QuitButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
@@ -495,7 +499,9 @@ public class CurriculumChecklistApplication {
     }
 
     /**
-     * Called the computeGWA method and displays the return value on the coursesPanel.
+     * Handles the previous (<) and next (>) buttons. If either of the two 
+     * buttons is clicked, the year and term label, along with the course 
+     * information, with or without the grades, adjusts accordingly.
      *
      * @author Mike Evander Fajardo
      */
