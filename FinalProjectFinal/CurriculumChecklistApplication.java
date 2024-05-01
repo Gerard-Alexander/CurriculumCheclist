@@ -142,11 +142,11 @@ public class CurriculumChecklistApplication {
                     }
                 }
 
-                ArrayList<FinalProject.Course> courses = null;
+                ArrayList<samcis.slu.Course> courses = null;
 
                 try {
                     // Create a new Course object
-                    FinalProject.Course course = new FinalProject.Course(year, term, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
+                    samcis.slu.Course course = new samcis.slu.Course(year, term, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
                     // Add the course to the list of courses
                     try {
                         courses = controller.getCourses();
@@ -167,7 +167,6 @@ public class CurriculumChecklistApplication {
             });
         }
     }
-
 
 
     private class RemoveCourseButtonHandler implements ActionListener {
