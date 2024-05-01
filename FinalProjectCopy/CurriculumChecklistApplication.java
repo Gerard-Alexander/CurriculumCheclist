@@ -153,11 +153,39 @@ public class CurriculumChecklistApplication {
 
     private class RemoveCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            showGWAIsClicked = false;
-            // TO-DO
+            String courseToRemove = JOptionPane.showInputDialog(mainFrame, "Enter the course number to remove:");
+
+            if (courseToRemove != null && !courseToRemove.isEmpty()) {
+                ArrayList<Course> courses = null;
+                try {
+                    courses = controller.getCourses();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+                boolean courseFound = false;
+
+                for (Course course : courses) {
+                    if (course.getCourseNumber().equals(courseToRemove)) {
+                        courses.remove(course);
+                        courseFound = true;
+                        break;
+                    }
+                }
+
+                if (courseFound) {
+                    try {
+                        controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
+                        JOptionPane.showMessageDialog(mainFrame, "Course removed successfully.", "Remove Course", JOptionPane.INFORMATION_MESSAGE);
+                        displayCourses();
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(mainFrame, "Course not found.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
-
     /**
      * @author Joross Burlas
      */
