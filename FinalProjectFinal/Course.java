@@ -1,4 +1,4 @@
-package FinalProject;
+package samcis.slu;
 
 
 /**
