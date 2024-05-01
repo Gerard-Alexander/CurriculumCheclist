@@ -83,20 +83,21 @@ public class CurriculumChecklistApplication {
     /**
      * @author Ravone Ebeng
      */
-   private class AddCourseButtonHandler implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-        showGWAIsClicked = false;
-        SwingUtilities.invokeLater(() -> {
-            String yearStr = null, termStr = null, courseNumber = null, descriptiveTitle = null, unitsStr = null;
-            byte year = 0, term = 0;
-            double units = 0.0;
+  private class AddCourseButtonHandler implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            showGWAIsClicked = false;
+            SwingUtilities.invokeLater(() -> {
+                String yearStr = null, termStr = null, courseNumber = null, descriptiveTitle = null, unitsStr = null;
+                byte year = 0, term = 0;
+                double units = 0.0;
 
-            try {
                 while (yearStr == null) {
                     yearStr = JOptionPane.showInputDialog(mainFrame, "Enter the year (1-4 only):");
                     if (yearStr == null) return; // User clicked cancel
-                    year = Byte.parseByte(yearStr);
-                    if (year < 1 || year > 4) {
+                    try {
+                        year = Byte.parseByte(yearStr);
+                        if (year < 1 || year > 4) throw new NumberFormatException();
+                    } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(mainFrame, "Year must be a number between 1 and 4.", "Error", JOptionPane.ERROR_MESSAGE);
                         yearStr = null; // Reset the input
                     }
@@ -105,8 +106,10 @@ public class CurriculumChecklistApplication {
                 while (termStr == null) {
                     termStr = JOptionPane.showInputDialog(mainFrame, "Enter the term (1 = 1st sem, 2 = 2nd sem, 3 = short term):");
                     if (termStr == null) return; // User clicked cancel
-                    term = Byte.parseByte(termStr);
-                    if (term < 1 || term > 3) {
+                    try {
+                        term = Byte.parseByte(termStr);
+                        if (term < 1 || term > 3) throw new NumberFormatException();
+                    } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(mainFrame, "Term must be a number between 1 and 3.", "Error", JOptionPane.ERROR_MESSAGE);
                         termStr = null; // Reset the input
                     }
@@ -131,38 +134,40 @@ public class CurriculumChecklistApplication {
                 while (unitsStr == null) {
                     unitsStr = JOptionPane.showInputDialog(mainFrame, "Enter the units (must be a number):");
                     if (unitsStr == null) return; // User clicked cancel
-                    units = Double.parseDouble(unitsStr);
+                    try {
+                        units = Double.parseDouble(unitsStr);
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(mainFrame, "Units must be a number.", "Error", JOptionPane.ERROR_MESSAGE);
+                        unitsStr = null; // Reset the input
+                    }
                 }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(mainFrame, "Year, term and units must be a number and within the valid range.", "Error", JOptionPane.ERROR_MESSAGE);
-                return; // Exit the method if there's an error
-            }
 
-            ArrayList<FinalProject.Course> courses = null;
+                ArrayList<FinalProject.Course> courses = null;
 
-            try {
-                // Create a new Course object
-                FinalProject.Course course = new FinalProject.Course(year, term, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
-                // Add the course to the list of courses
                 try {
-                    courses = controller.getCourses();
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(mainFrame, "Error getting courses: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
+                    // Create a new Course object
+                    FinalProject.Course course = new FinalProject.Course(year, term, courseNumber, descriptiveTitle, units, 0, "", "", false, false);
+                    // Add the course to the list of courses
+                    try {
+                        courses = controller.getCourses();
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(mainFrame, "Error getting courses: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    courses.add(course);
+                    // Save the updated course list to a file
+                    controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
+                    // Notify the user of successful addition
+                    JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
+                    // Display the newly added course
+                    displayCourses();
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                courses.add(course);
-                // Save the updated course list to a file
-                controller.saveCourseListToFile(courses, "dynamic_curriculum_checklist.txt");
-                // Notify the user of successful addition
-                JOptionPane.showMessageDialog(mainFrame, "Course added successfully.", "Add Course", JOptionPane.INFORMATION_MESSAGE);
-                // Display the newly added course
-                displayCourses();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(mainFrame, "Error saving course list to file: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
+            });
+        }
     }
-}
+
 
 
     private class RemoveCourseButtonHandler implements ActionListener {
