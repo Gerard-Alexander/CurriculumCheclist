@@ -58,7 +58,8 @@ public class CurriculumChecklistApplication {
     }
 
     /**
-     * this method
+     * This button handler allows the show button in the GUI to show the courses in the main panel.
+     * 
      * @author Gerard Bernados
      */
     private class ShowCoursesButtonHandler implements ActionListener {
@@ -82,6 +83,9 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * This button handler allows the user to add a course in the file through the GUI.
+     * The added course will be automatically saved in the data file.
+     * 
      * @author Ravone Ebeng
      */
     private class AddCourseButtonHandler implements ActionListener {
@@ -169,6 +173,12 @@ public class CurriculumChecklistApplication {
         }
     }
 
+    /**
+     * This button handler allows the user to remove a course displayed in the GUI.
+     * The removed course will be automatically saved in the data file.
+     * 
+     * @author Charles Pecson
+     */
     private class RemoveCourseButtonHandler implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             String courseToRemove = JOptionPane.showInputDialog(mainFrame, "Enter the course number to remove:");
@@ -205,6 +215,9 @@ public class CurriculumChecklistApplication {
         }
     }
     /**
+     * This button handler allows the user to edit a Descriptive title and the units of the course.
+     * The edited course will be automatically save in the data file.
+     * 
      * @author Joross Burlas
      */
     private class EditCourseButtonHandler implements ActionListener {
@@ -283,6 +296,9 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * This button handler allows the user to show the course with the corresponding grades.
+     * The data was read from the data file.
+     * 
      * @author Gerard Bernados
      */
     private class ShowGradesButtonHandler implements ActionListener {
@@ -306,6 +322,9 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * This button handler allows the user to enter a grade in a specific course.
+     * The entered grade will be automatically saved in the data file.
+     * 
      * @author Gerard Alexander C. Bernados
      */
     private class EnterGradeButtonHandler implements ActionListener {
@@ -384,6 +403,9 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * This button handler allows the user to sort the data according to the preference of the user.
+     * It can be sorted either Ascending or Descending and by Course number, Descriptive Title, Grade, and Units.
+     * 
      * @author Lance Cariaga
      */
     private class SortButtonHandler implements ActionListener {
@@ -522,6 +544,8 @@ public class CurriculumChecklistApplication {
     }
 
     /**
+     * This method display courses from the read file. 
+     * 
      * @author Gerard Bernados
      */
     private void displayCourses() {
