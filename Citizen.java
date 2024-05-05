@@ -88,9 +88,14 @@ public class Citizen implements Comparable <Citizen>{
     public String toString(){
         return fullName + " " + email + " " + address + " " + age + " "  resident + " " district + " " + gender
     }
-    
+
+    @Override
     public int compareTo(Citizen other Citizen) {
         return this.fullName.compareTo(other Citizen.fullName);
+    }
+
+    public boolean equals(Object another){
+        return  (this.getId().equals(((Citizen)another).getId()));
     }
     
     
