@@ -1,2 +1,1 @@
-# FinalGroupProject
-CS122
+# Curriculum Checklist
